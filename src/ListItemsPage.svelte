@@ -9,9 +9,9 @@
   import { push, querystring } from "svelte-spa-router";
 
   // export let onEdit;
-  // export let project_id;
+  let project_id = $querystring;
 
-  console.log($querystring);
+  console.log(project_id);
 
   let qresult = null;
 
@@ -24,12 +24,16 @@
 
     qresult = await doFetch(
       $dbN,
-      "select * from items where project_id=" + $querystring
+      "select * from items where project_id=" + project_id
     );
   }
 
-  function handleAdd() {
-    push("/add?0");
+  function handleAddText() {
+    push("/addtext?" + project_id);
+  }
+
+  function handleAddImage() {
+    push("/addimage?" + project_id);
   }
 
   function handleEdit(item) {
@@ -46,4 +50,5 @@
 {#if qresult}
   <ItemList items={qresult} />
 {/if}
-<Button class="ml-4 mt-4 mb-4" on:click={handleAdd}>Add new item</Button>
+<Button class="ml-4 mt-4 mb-4" on:click={handleAddText}>Add text</Button>
+<Button class="ml-4 mt-4 mb-4" on:click={handleAddImage}>Add image</Button>

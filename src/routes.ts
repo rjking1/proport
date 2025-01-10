@@ -2,7 +2,8 @@ import LoginPage from "./LoginPage.svelte";
 import ListProjectsPage from "./ListProjectsPage.svelte";
 import ListItemsPage from "./ListItemsPage.svelte";
 import NotFound from "./NotFound.svelte";
-import AddPage from "./AddPage.svelte";
+import AddTextPage from "./AddTextPage.svelte";
+import AddImagePage from "./AddImagePage.svelte";
 import QueryPage from "./QueryPage.svelte";
 import { wrap } from "svelte-spa-router/wrap";
 
@@ -13,7 +14,8 @@ export const routes = {
   // "/article/:title": Article,
   // "/login": LoginPage,
   "/list": ListProjectsPage,
-  "/add": AddPage,
+  "/addtext": AddTextPage,
+  "/addimage": AddImagePage,
   "/project": ListItemsPage,
   "/query": QueryPage,
   // Wildcard

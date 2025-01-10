@@ -5,5 +5,5 @@
 
 </script>
 
-<Textarea placeholder={text} />
+<Textarea placeholder={text} readonly />
 <!-- <P>{text}</P> -->

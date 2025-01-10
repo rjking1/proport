@@ -11,7 +11,7 @@
 
 <TableBodyRow>
   <TableBodyCell>
-    <button on:click={handleEdit}>✎ Open</button>
+    <button on:click={handleEdit}>📂 Open</button>
   </TableBodyCell>  
   <TableBodyCell>{project.Interest}</TableBodyCell>
   <TableBodyCell>{project.Portfolio}</TableBodyCell>
