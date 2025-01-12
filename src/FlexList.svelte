@@ -19,16 +19,29 @@
     onSelect(item);
   }
   async function doAdd() {
-    if(what==="Project"){
-      let name = prompt("Project name")
-      if(name !== null){
-        items.push({Name:`${name}`})
-        console.log(items)
+    let name = prompt(`${what} name`)
+    if(name !== null){
+      if(what==="Project"){
+        // items.push({Name:`${name}`})
+        // console.log(items)
         await doFetch(
           $dbN,
           `insert into projects(Name,Portfolio_ID,User_ID,Progress) values ('${name}',${parent_id},${$permissions["u_id"]},'idea')`
         );      
       }
+      else if(what === "Portfolio") {
+        await doFetch(
+          $dbN,
+          `insert into portfolios(Name,Interest_ID,User_ID) values ('${name}',${parent_id},${$permissions["u_id"]})`
+        );      
+      }
+      else if(what === "Interest") {
+        await doFetch(
+          $dbN,
+          `insert into interests(Name,User_ID) values ('${name}',${$permissions["u_id"]})`
+        );      
+      }
+      alert(`Please click on parent folder to refresh`)
     }
     else {
       alert("Not implemented yet")

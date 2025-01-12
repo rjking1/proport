@@ -18,6 +18,7 @@
   let portfolios = null;
   let projects = null;
 
+  let selectedInterest;
   let selectedPortfolio;
 
   onMount(async () => {
@@ -48,6 +49,7 @@
   async function interestSelected(interest) {
     // onEdit(ride);
     console.log("interest selected", interest)
+    selectedInterest = interest;
     await queryPortfolios(interest.ID)
     projects=undefined;
   }
@@ -76,7 +78,7 @@
 {/if}
 <hr>
 {#if portfolios}
-  <FlexList parent_id=0 what="Portfolio" items={portfolios} bg="#D9FEE5" onSelect={(item) => portfolioSelected(item)} />
+  <FlexList parent_id={selectedInterest.ID} what="Portfolio" items={portfolios} bg="#D9FEE5" onSelect={(item) => portfolioSelected(item)} />
 {/if}
 <hr>
 {#if projects}
