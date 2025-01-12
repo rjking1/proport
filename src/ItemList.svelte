@@ -6,6 +6,7 @@
   import TextItem from "./TextItem.svelte";
   import ImageItem from "./ImageItem.svelte";
 
+  export let project_id;
   export let items;
 
   async function handleDelete(id) {
@@ -15,16 +16,21 @@
       `delete from items where id=${id}` 
     );
     console.log(qresult);
+    qresult = await doFetch(
+      $dbN,
+      `select p.name as p_name, i.* from projects p join items i on p.id = i.project_id where p.id=${project_id} order by i.id desc` 
+    );
+    console.log(qresult);
+    items = qresult;
   }
-
 </script>
 
 <!-- <h1>Items</h1> -->
 <br>
 {#each items as item}
   {#if item.Name != "image"}
-    <TextItem text={item.Text} onDelete={(item) => handleDelete(item.id)} />
+    <TextItem item={item} onDelete={(id)=>handleDelete(id)} />
   {:else}  
-    <ImageItem blob={item.Text} />
+    <ImageItem item={item} onDelete={(id)=>handleDelete(id)} />
   {/if}
 {/each}

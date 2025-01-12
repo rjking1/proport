@@ -77,13 +77,12 @@
           <textarea class="h-40" value="{base64String}" readonly></textarea>
         </div> -->
         {#if base64String}
+          <Button class="mt-4" type="button" on:click={doAddOrUpdate}>
+            Add
+          </Button>
+          <br>
           <img src={base64String} alt="missing" />
         {/if}
-        <br>
-        <Button class="mt-4" type="button" on:click={doAddOrUpdate}>
-          <!-- {#if id === ""}Add Text{:else}Update Text{/if} -->
-          Add
-        </Button>
       </div>
     </form>
   </div>

@@ -18,6 +18,8 @@
   let portfolios = null;
   let projects = null;
 
+  let selectedPortfolio;
+
   onMount(async () => {
     await queryInterests();
   });
@@ -25,21 +27,21 @@
   async function queryInterests() {
     interests = await doFetch(
       $dbN,
-      `select ID, Name from interests where user_id=${user_id}`
+      `select ID, Name from interests where user_id=${user_id} order by id`
     );
   }
 
   async function queryPortfolios(interest_id) {
     portfolios = await doFetch(
       $dbN,
-      `select ID, Name from portfolios where interest_id=${interest_id}`
+      `select ID, Name from portfolios where interest_id=${interest_id} order by id`
     );
   }
 
   async function queryProjects(portfolio_id) {
     projects = await doFetch(
       $dbN,
-      `select ID, Name from projects where portfolio_id=${portfolio_id}`
+      `select ID, Name, Progress from projects where portfolio_id=${portfolio_id} order by id`
     );
   }
 
@@ -47,11 +49,13 @@
     // onEdit(ride);
     console.log("interest selected", interest)
     await queryPortfolios(interest.ID)
+    projects=undefined;
   }
 
   async function portfolioSelected(portfolio) {
     // onEdit(ride);
     console.log("portfolio selected", portfolio)
+    selectedPortfolio = portfolio;
     await queryProjects(portfolio.ID)
   }
 
@@ -68,13 +72,13 @@
 <!-- <Heading tag="h5" class="ml-4">Interests</Heading> -->
 <!-- <ProjectList projects={qresult} onEdit={(item) => handleEdit(item)} /> -->
 {#if interests}
-  <FlexList items={interests} bg="PapayaWhip"  onSelect={(item) => interestSelected(item)} />
+  <FlexList parent_id=0 what="Interest" items={interests} bg="PapayaWhip"  onSelect={(item) => interestSelected(item)} />
 {/if}
 <hr>
 {#if portfolios}
-  <FlexList items={portfolios} bg="lightyellow" onSelect={(item) => portfolioSelected(item)} />
+  <FlexList parent_id=0 what="Portfolio" items={portfolios} bg="#D9FEE5" onSelect={(item) => portfolioSelected(item)} />
 {/if}
 <hr>
 {#if projects}
-  <FlexList items={projects} bg="aliceblue"  onSelect={(item) => projectSelected(item)} />
+  <FlexList parent_id={selectedPortfolio.ID} what="Project" items={projects} bg="aliceblue"  onSelect={(item) => projectSelected(item)} />
 {/if}

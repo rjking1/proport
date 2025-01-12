@@ -1,10 +1,14 @@
 <script>
-  import { Img } from "flowbite-svelte";
+  import { Button } from "flowbite-svelte";
 
-  export let blob;
+  export let item;
+  export let onDelete;
 
-  let src = blob; //URL.createObjectURL(b);
+  let src = item.Text;
 
 </script>
 
-<img src={src} alt="missing" />
+<div class="xflex">
+  <img src={src} alt="missing" />
+  <Button color="yellow"  class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
+</div>

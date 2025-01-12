@@ -24,7 +24,7 @@
     //id = '' // revert to Add mode
     qresult = await doFetch(
       $dbN,
-      `select p.name as p_name, i.* from projects p join items i on p.id = i.project_id where p.user_id=${user_id} and p.id=${project_id} order by i.id` 
+      `select p.name as p_name, i.* from projects p left join items i on p.id = i.project_id where p.user_id=${user_id} and p.id=${project_id} order by i.id desc` 
     );
     console.log(qresult);
   }
@@ -48,8 +48,8 @@
 <!-- <Button class="ml-4 mt-4 mb-4" on:click={handleAdd}>Add new item</Button> -->
 <br>
 {#if qresult}
-  <Heading tag="h5" class="ml-4">Project {qresult[0]["p_name"]}</Heading>
-  <ItemList items={qresult} />
+  <Heading tag="h3" class="ml-4">{qresult[0]["p_name"]} Project</Heading>
+  <Button class="ml-4 mt-4 mb-4" on:click={handleAddText}>Add text</Button>
+  <Button class="ml-4 mt-4 mb-4" on:click={handleAddImage}>Add image</Button>
+  <ItemList project_id={project_id} items={qresult} />
 {/if}
-<Button class="ml-4 mt-4 mb-4" on:click={handleAddText}>Add text</Button>
-<Button class="ml-4 mt-4 mb-4" on:click={handleAddImage}>Add image</Button>

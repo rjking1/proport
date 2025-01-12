@@ -1,12 +1,11 @@
 <script>
-  import { Textarea, P, Button } from "flowbite-svelte";
+  import { Textarea, Button } from "flowbite-svelte";
 
-  export let text;
+  export let item;
   export let onDelete;
 </script>
 
 <div class="flex">
-  <Textarea placeholder={text} rows="3" w= readonly />
-  <!-- <P>{text}</P> -->
-  <Button class="ml-4 mt-4 mb-4" on:click={onDelete}>Delete</Button>
+  <Textarea placeholder={item.Text} rows="3" w= readonly />
+  <Button color="yellow" class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
 </div>

@@ -8,7 +8,10 @@
 </script>
 
 <div class="region {highlight===true?'hi':''}" on:click={() => onSelect(item)}>
-  <span>{item.Name}</span>
+  <span><b>{item.Name}</b></span>
+  {#if item.Progress}
+    <br><span>{item.Progress}</span>
+  {/if}
 </div>
 
 <style>
@@ -24,6 +27,6 @@
     vertical-align: auto  ;
   }
   .hi {
-    background-color: yellow;
+    background-color: lightgoldenrodyellow;
   }
 </style>

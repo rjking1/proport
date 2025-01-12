@@ -1,8 +1,11 @@
 <script>
-  import ProjectHeader from "./ProjectHeader.svelte";
   import FlexItem from "./FlexItem.svelte";
-  import { Table } from "flowbite-svelte";
 
+  import { doFetch } from "./common";
+  import { dbN, permissions } from "./stores";
+
+  export let what;
+  export let parent_id;
   export let items;
   export let onSelect;
   export let bg;
@@ -10,10 +13,26 @@
   let selectedName = '';
 
   function handleSelect(item) {
-    console.log("FlexList handling select for item=", item)
+    // console.log("FlexList handling select for item=", item)
     selectedName = item.Name;
-    console.log(selectedName)
+    // console.log(selectedName)
     onSelect(item);
+  }
+  async function doAdd() {
+    if(what==="Project"){
+      let name = prompt("Project name")
+      if(name !== null){
+        items.push({Name:`${name}`})
+        console.log(items)
+        await doFetch(
+          $dbN,
+          `insert into projects(Name,Portfolio_ID,User_ID,Progress) values ('${name}',${parent_id},${$permissions["u_id"]},'idea')`
+        );      
+      }
+    }
+    else {
+      alert("Not implemented yet")
+    }
   }
 </script>
 
@@ -22,4 +41,7 @@
   {#each items as item}
     <FlexItem item={item} onSelect={() => handleSelect(item)} highlight={item.Name===selectedName} />
   {/each}
+  <button on:click={doAdd}>
+    + Add {what}
+  </button>
 </div>
