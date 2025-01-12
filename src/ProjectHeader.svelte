@@ -6,8 +6,8 @@
   <TableHeadCell>
     <span class="sr-only"> Open </span>
   </TableHeadCell>
-  <TableHeadCell>Interest</TableHeadCell>
-  <TableHeadCell>Portfolio</TableHeadCell>
   <TableHeadCell>Project</TableHeadCell>
+  <TableHeadCell>Portfolio</TableHeadCell>
+  <TableHeadCell>Interest</TableHeadCell>
   <TableHeadCell>Progress</TableHeadCell>
 </TableHead>

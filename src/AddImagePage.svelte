@@ -1,11 +1,12 @@
 <script lang="ts">
   import { Button, Input, Select, Textarea } from "flowbite-svelte";
   import { doFetch } from "./common";
-  import { dbN } from "./stores";
+  import { dbN, permissions } from "./stores";
 
   // import { onMount } from "svelte";
-  import { push, querystring } from "svelte-spa-router";
+  import { push, querystring, replace } from "svelte-spa-router";
 
+  let user_id = $permissions["u_id"];
   let project_id = $querystring;
   console.log(project_id);
 
@@ -40,11 +41,12 @@
     const sql =
       // id === ""
       //   ? 
-        "INSERT INTO items (name, text, project_id) " +
+        "INSERT INTO items (name, text, project_id, user_id) " +
           "values ('image','" +
           base64String +
           "'," +
-          project_id +
+          project_id + "," +
+          user_id +
           ")";
         // : "REPLACE INTO items (id,text,project_id) " +
         //   "values ('" +
@@ -55,7 +57,7 @@
     qresult = await doFetch($dbN, sql);
     console.log(qresult);
 
-    push("/project?" + project_id);
+    replace("/project?" + project_id);
   }
 </script>
 

@@ -13,8 +13,8 @@
   <TableBodyCell>
     <button on:click={handleEdit}>📂 Open</button>
   </TableBodyCell>  
-  <TableBodyCell>{project.Interest}</TableBodyCell>
-  <TableBodyCell>{project.Portfolio}</TableBodyCell>
   <TableBodyCell>{project.Project}</TableBodyCell>
+  <TableBodyCell>{project.Portfolio}</TableBodyCell>
+  <TableBodyCell>{project.Interest}</TableBodyCell>
   <TableBodyCell>{project.Progress}</TableBodyCell>
 </TableBodyRow>

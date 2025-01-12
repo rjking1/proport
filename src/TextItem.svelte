@@ -1,9 +1,12 @@
 <script>
-  import { Textarea, P } from "flowbite-svelte";
+  import { Textarea, P, Button } from "flowbite-svelte";
 
   export let text;
-
+  export let onDelete;
 </script>
 
-<Textarea placeholder={text} readonly />
-<!-- <P>{text}</P> -->
+<div class="flex">
+  <Textarea placeholder={text} rows="3" w= readonly />
+  <!-- <P>{text}</P> -->
+  <Button class="ml-4 mt-4 mb-4" on:click={onDelete}>Delete</Button>
+</div>

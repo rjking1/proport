@@ -1,6 +1,8 @@
 <script lang="ts">
+  import FlexList from "./FlexList.svelte";
+
   import { doFetch } from "./common";
-  import { dbN } from "./stores";
+  import { dbN, permissions } from "./stores";
 
   import { onMount } from "svelte";
 
@@ -9,32 +11,70 @@
   import { push } from "svelte-spa-router";
 
   // export let onEdit;
+  let user_id = $permissions["u_id"];
 
   let qresult = null;
+  let interests = null;
+  let portfolios = null;
+  let projects = null;
 
   onMount(async () => {
-    await doList();
+    await queryInterests();
   });
 
-  async function doList() {
-    //id = '' // revert to Add mode
-
-    qresult = await doFetch(
+  async function queryInterests() {
+    interests = await doFetch(
       $dbN,
-      "select pr.id as ID, i.Name as Interest, po.Name as Portfolio, pr.Name as Project, pr.Progress as Progress from interests i join portfolios po on po.interest_id=i.ID join projects pr on pr.portfolio_ID=po.ID"
+      `select ID, Name from interests where user_id=${user_id}`
     );
   }
 
-  function handleEdit(item) {
-    // onEdit(ride);
-    console.log(item)
-    push(`/project?${item.ID}`);
+  async function queryPortfolios(interest_id) {
+    portfolios = await doFetch(
+      $dbN,
+      `select ID, Name from portfolios where interest_id=${interest_id}`
+    );
   }
+
+  async function queryProjects(portfolio_id) {
+    projects = await doFetch(
+      $dbN,
+      `select ID, Name from projects where portfolio_id=${portfolio_id}`
+    );
+  }
+
+  async function interestSelected(interest) {
+    // onEdit(ride);
+    console.log("interest selected", interest)
+    await queryPortfolios(interest.ID)
+  }
+
+  async function portfolioSelected(portfolio) {
+    // onEdit(ride);
+    console.log("portfolio selected", portfolio)
+    await queryProjects(portfolio.ID)
+  }
+
+  async function projectSelected(project) {
+    // onEdit(ride);
+    console.log("portfolio selected", project)
+    push(`/project?${project.ID}`);
+  }
+
 </script>
 
 <!-- <button type="button" on:click={doList}>List</button> -->
 
 <!-- <Heading tag="h5" class="ml-4">Interests</Heading> -->
-{#if qresult}
-  <ProjectList projects={qresult} onEdit={(item) => handleEdit(item)} />
+<!-- <ProjectList projects={qresult} onEdit={(item) => handleEdit(item)} /> -->
+{#if interests}
+  <FlexList items={interests} bg="PapayaWhip"  onSelect={(item) => interestSelected(item)} />
+{/if}
+<hr>
+{#if portfolios}
+  <FlexList items={portfolios} bg="lightyellow" onSelect={(item) => portfolioSelected(item)} />
+{/if}
+<hr>
+{#if projects}
+  <FlexList items={projects} bg="aliceblue"  onSelect={(item) => projectSelected(item)} />
 {/if}

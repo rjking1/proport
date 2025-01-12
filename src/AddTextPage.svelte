@@ -1,13 +1,14 @@
 <script lang="ts">
   import { Button, Input, Select, Textarea } from "flowbite-svelte";
   import { doFetch } from "./common";
-  import { dbN } from "./stores";
+  import { dbN, permissions } from "./stores";
 
   // import { onMount } from "svelte";
-  import { push, querystring } from "svelte-spa-router";
+  import { pop, push, replace, querystring } from "svelte-spa-router";
 
+  let user_id = $permissions["u_id"];
   let project_id = $querystring;
-  console.log(project_id);
+  // console.log(project_id);
 
   let text;
 
@@ -24,14 +25,16 @@
   //fetch('https://www.artspace7.com.au/dsql/json_helper_get.php?db=art25285_rides2&sql=select%20*%20from%20bikes')
 
   async function doAddOrUpdate() {
+    console.log($permissions)
     const sql =
       // id === ""
       //   ? 
-        "INSERT INTO items (name, text, project_id) " +
+        "INSERT INTO items (name, text, project_id, user_id) " +
           "values ('text','" +
           text.replace(/'/g, "''") +
           "'," +
-          project_id +
+          project_id + "," +
+          user_id +
           ")";
         // : "REPLACE INTO items (id,text,project_id) " +
         //   "values ('" +
@@ -39,10 +42,12 @@
         //   "'," +
         //   project_id +
         //   ")";
+    console.log(sql);
     qresult = await doFetch($dbN, sql);
     console.log(qresult);
 
-    push("/project?" + project_id);
+    pop();
+    replace("/project?" + project_id);
   }
 </script>
 
