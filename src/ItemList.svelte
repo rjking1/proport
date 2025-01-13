@@ -1,7 +1,6 @@
 <script>
   import { doFetch } from "./common";
   import { dbN, permissions } from "./stores";
-  import { pop } from "svelte-spa-router";
 
   import TextItem from "./TextItem.svelte";
   import ImageItem from "./ImageItem.svelte";

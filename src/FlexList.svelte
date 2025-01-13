@@ -8,6 +8,8 @@
   export let parent_id;
   export let items;
   export let onSelect;
+  export let onAdded=null;
+
   export let bg;
 
   let selectedName = '';
@@ -21,6 +23,7 @@
   async function doAdd() {
     let name = prompt(`${what} name`)
     if(name !== null){
+      name = name.replace(/'/g, "''");
       if(what==="Project"){
         // items.push({Name:`${name}`})
         // console.log(items)
@@ -28,20 +31,22 @@
           $dbN,
           `insert into projects(Name,Portfolio_ID,User_ID,Progress) values ('${name}',${parent_id},${$permissions["u_id"]},'idea')`
         );      
+        alert(`Please click on parent folder to refresh`)
       }
       else if(what === "Portfolio") {
         await doFetch(
           $dbN,
           `insert into portfolios(Name,Interest_ID,User_ID) values ('${name}',${parent_id},${$permissions["u_id"]})`
         );      
+        alert(`Please click on parent folder to refresh`)
       }
       else if(what === "Interest") {
         await doFetch(
           $dbN,
           `insert into interests(Name,User_ID) values ('${name}',${$permissions["u_id"]})`
         );      
+        onAdded();
       }
-      alert(`Please click on parent folder to refresh`)
     }
     else {
       alert("Not implemented yet")
@@ -50,7 +55,7 @@
 </script>
 
 <!-- <ProjectHeader /> -->
-<div class="flex" style="background-color:{bg};">
+<div class="itemlist" style="background-color:{bg};">
   {#each items as item}
     <FlexItem item={item} onSelect={() => handleSelect(item)} highlight={item.Name===selectedName} />
   {/each}
@@ -58,3 +63,10 @@
     + Add {what}
   </button>
 </div>
+
+<style>
+  .itemlist {
+    display:flex;
+    xflex-wrap: wrap;
+  }
+</style>

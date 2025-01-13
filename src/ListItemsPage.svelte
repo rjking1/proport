@@ -48,7 +48,7 @@
 <!-- <Button class="ml-4 mt-4 mb-4" on:click={handleAdd}>Add new item</Button> -->
 <br>
 {#if qresult}
-  <Heading tag="h3" class="ml-4">{qresult[0]["p_name"]} Project</Heading>
+  <Heading tag="h3" class="ml-4">{qresult[0]["p_name"]}</Heading>
   <Button class="ml-4 mt-4 mb-4" on:click={handleAddText}>Add text</Button>
   <Button class="ml-4 mt-4 mb-4" on:click={handleAddImage}>Add image</Button>
   <ItemList project_id={project_id} items={qresult} />

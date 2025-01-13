@@ -67,6 +67,9 @@
     push(`/project?${project.ID}`);
   }
 
+  async function interestAdded() {
+    await queryInterests();
+  }
 </script>
 
 <!-- <button type="button" on:click={doList}>List</button> -->
@@ -74,7 +77,7 @@
 <!-- <Heading tag="h5" class="ml-4">Interests</Heading> -->
 <!-- <ProjectList projects={qresult} onEdit={(item) => handleEdit(item)} /> -->
 {#if interests}
-  <FlexList parent_id=0 what="Interest" items={interests} bg="PapayaWhip"  onSelect={(item) => interestSelected(item)} />
+  <FlexList parent_id=0 what="Interest" items={interests} bg="PapayaWhip"  onSelect={(item) => interestSelected(item)} onAdded={()=>interestAdded()} />
 {/if}
 <hr>
 {#if portfolios}

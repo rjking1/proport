@@ -16,7 +16,7 @@
 
 <style>
   .region {
-    height: 100px;
+    height: 180px;
     width: 300px;
     background-color: ghostwhite;
     border: 2px solid black;
