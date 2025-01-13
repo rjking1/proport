@@ -13,10 +13,10 @@ export const routes = {
   // Exact path + parameter
   // "/article/:title": Article,
   // "/login": LoginPage,
-  "/list": ListProjectsPage,
-  "/addtext": AddTextPage,
-  "/addimage": AddImagePage,
-  "/project": ListItemsPage,
+  "/list/:uid": ListProjectsPage,
+  "/addtext/:uid/:pid": AddTextPage,
+  "/addimage/:uid/:pid": AddImagePage,
+  "/project/:uid/:pid": ListItemsPage,
   "/query": QueryPage,
   // Wildcard
   "*": NotFound,

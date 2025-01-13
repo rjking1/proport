@@ -6,21 +6,13 @@
   // import { onMount } from "svelte";
   import { push, querystring, replace } from "svelte-spa-router";
 
-  let user_id = $permissions["u_id"];
-  let project_id = $querystring;
-  console.log(project_id);
+  export let params;
+  let user_id = params["uid"];
+  let project_id = params["pid"];
 
-  // let b64;
+  $dbN = localStorage.dbN;
+
   let base64String = "";
-
-  // onMount(async () => {
-  //   if (id === "0") {
-  //     text = "";
-  //   } else {
-  //     // text = item.text;
-  //   }
-  // });
-
   let qresult = null;
 
 	function on_file_input(e) {
@@ -57,7 +49,7 @@
     qresult = await doFetch($dbN, sql);
     console.log(qresult);
 
-    replace("/project?" + project_id);
+    replace(`/project/${user_id}/${project_id}`);
   }
 </script>
 
@@ -74,9 +66,9 @@
         </div>
         <!-- <div>
           <span>Base64</span>
+          </div> -->
+          {#if base64String}
           <textarea class="h-40" value="{base64String}" readonly></textarea>
-        </div> -->
-        {#if base64String}
           <Button class="mt-4" type="button" on:click={doAddOrUpdate}>
             Add
           </Button>

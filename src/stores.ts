@@ -1,9 +1,8 @@
 import { writable } from 'svelte/store';
 
-// export const page = writable("login");
 export const loggedIn = writable("false")
 export const permissions = writable()
-// export const views = writable("")
+export const selections = writable()
 
 let db_local = localStorage.getItem('proport_db')  // can also be test
 export const dbName = writable(db_local || 'proport')

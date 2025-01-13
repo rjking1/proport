@@ -6,13 +6,13 @@
   import { onMount } from "svelte";
 
   import { Heading, Button } from "flowbite-svelte";
-  import { push, querystring } from "svelte-spa-router";
+  import { push } from "svelte-spa-router";
 
-  // export let onEdit;
-  let project_id = $querystring;
-  let user_id = $permissions["u_id"];
+  export let params;
+  let user_id = params["uid"];
+  let project_id = params['pid']
 
-  // console.log(project_id);
+  $dbN = localStorage.dbN;
 
   let qresult = null;
 
@@ -30,11 +30,11 @@
   }
 
   function handleAddText() {
-    push("/addtext?" + project_id);
+    push(`/addtext/${user_id}/${project_id}`);
   }
 
   function handleAddImage() {
-    push("/addimage?" + project_id);
+    push(`/addimage/${user_id}/${project_id}`);
   }
 
   function handleEdit(item) {

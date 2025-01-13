@@ -1,31 +1,24 @@
 <script lang="ts">
   import { Button, Input, Select, Textarea } from "flowbite-svelte";
   import { doFetch } from "./common";
-  import { dbN, permissions } from "./stores";
+  import { dbN } from "./stores";
 
   // import { onMount } from "svelte";
-  import { pop, push, replace, querystring } from "svelte-spa-router";
+  import { pop, replace } from "svelte-spa-router";
 
-  let user_id = $permissions["u_id"];
-  let project_id = $querystring;
-  // console.log(project_id);
+  export let params;
+  let user_id = params["uid"];
+  let project_id = params["pid"];
 
+  $dbN = localStorage.dbN;
+  
   let text;
-
-  // onMount(async () => {
-  //   if (id === "0") {
-  //     text = "";
-  //   } else {
-  //     // text = item.text;
-  //   }
-  // });
-
   let qresult = null;
 
   //fetch('https://www.artspace7.com.au/dsql/json_helper_get.php?db=art25285_rides2&sql=select%20*%20from%20bikes')
 
   async function doAddOrUpdate() {
-    console.log($permissions)
+    // console.log($permissions)
     const sql =
       // id === ""
       //   ? 
@@ -47,7 +40,7 @@
     console.log(qresult);
 
     pop();
-    replace("/project?" + project_id);
+    replace(`/project/${user_id}/${project_id}`);
   }
 </script>
 

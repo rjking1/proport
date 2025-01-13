@@ -9,7 +9,7 @@
     dbN,
     loggedIn,
     permissions,
-    // views,
+    selections,
   } from "./stores";
   import { Input, Button } from "flowbite-svelte";
 
@@ -44,6 +44,10 @@
       console.log($dbN);
       $loggedIn = "true";
 
+      localStorage.dbN = $dbN; // so cn refresh on phone
+      $selections = undefined; // clear selections
+      // localStorage.permissions = $permissions; // only needed if capab need checking elsewhere
+
       // qresult = await doFetch(
       //   $dbN,
       //   "select val from py_named_values where id like 'sys.society.%' order by id"
@@ -68,7 +72,7 @@
 
       // $page = "list";
 
-      push("/list");
+      push(`/list/${$permissions['u_id']}`);
     }
   }
 </script>
@@ -95,7 +99,7 @@
       </div>
     </form>
     <p class="text-center text-gray-500 text-xs mt-4">
-      &copy;2023 Viking Computer Services Pty Ltd.
+      &copy;2025 Viking Computer Services Pty Ltd.
     </p>
   </div>
 </main>

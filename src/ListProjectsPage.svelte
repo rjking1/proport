@@ -2,30 +2,42 @@
   import FlexList from "./FlexList.svelte";
 
   import { doFetch } from "./common";
-  import { dbN, permissions } from "./stores";
+  import { dbN, selections } from "./stores";
 
   import { onMount } from "svelte";
-
-  import ProjectList from "./ProjectList.svelte";
-  // import { Button, Heading } from "flowbite-svelte";
   import { push } from "svelte-spa-router";
 
-  // export let onEdit;
-  let user_id = $permissions["u_id"];
+  export let params
+  let user_id = params['uid'];
 
-  let qresult = null;
+  $dbN = localStorage.dbN;
+
   let interests = null;
   let portfolios = null;
   let projects = null;
 
-  let selectedInterest;
-  let selectedPortfolio;
+  let selectedInterestID;
+  let selectedPortfolioID;
+  let selectedProjectID;
 
   onMount(async () => {
-    await queryInterests();
+    await setSelections();
   });
-
+  
+  async function setSelections() {
+    await queryInterests();
+    if($selections != undefined) {
+      selectedInterestID = $selections[0];
+      selectedPortfolioID = $selections[1]
+      selectedProjectID = $selections[2]
+      await queryPortfolios(selectedInterestID);
+      await queryProjects(selectedPortfolioID);
+      // selected project?
+    }
+  }
+  
   async function queryInterests() {
+
     interests = await doFetch(
       $dbN,
       `select ID, Name from interests where user_id=${user_id} order by id`
@@ -49,22 +61,30 @@
   async function interestSelected(interest) {
     // onEdit(ride);
     console.log("interest selected", interest)
-    selectedInterest = interest;
-    await queryPortfolios(interest.ID)
+    selectedInterestID = interest.ID;
+    await queryPortfolios(selectedInterestID)
     projects=undefined;
   }
 
   async function portfolioSelected(portfolio) {
     // onEdit(ride);
     console.log("portfolio selected", portfolio)
-    selectedPortfolio = portfolio;
-    await queryProjects(portfolio.ID)
+    selectedPortfolioID = portfolio.ID;
+    await queryProjects(selectedPortfolioID)
   }
 
   async function projectSelected(project) {
     // onEdit(ride);
-    console.log("portfolio selected", project)
-    push(`/project?${project.ID}`);
+    console.log("project selected", project)
+    selectedProjectID = project.ID // for reselecting after return to this page
+
+    $selections = [
+      selectedInterestID,
+      selectedPortfolioID,
+      selectedProjectID
+    ];
+
+    push(`/project/${user_id}/${selectedProjectID}`);
   }
 
   async function interestAdded() {
@@ -81,9 +101,9 @@
 {/if}
 <hr>
 {#if portfolios}
-  <FlexList parent_id={selectedInterest.ID} what="Portfolio" items={portfolios} bg="#D9FEE5" onSelect={(item) => portfolioSelected(item)} />
+  <FlexList parent_id={selectedInterestID} what="Portfolio" items={portfolios} bg="#D9FEE5" onSelect={(item) => portfolioSelected(item)} />
 {/if}
 <hr>
 {#if projects}
-  <FlexList parent_id={selectedPortfolio.ID} what="Project" items={projects} bg="aliceblue"  onSelect={(item) => projectSelected(item)} />
+  <FlexList parent_id={selectedPortfolioID} what="Project" items={projects} bg="aliceblue"  onSelect={(item) => projectSelected(item)} />
 {/if}
