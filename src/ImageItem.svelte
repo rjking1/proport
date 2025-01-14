@@ -9,7 +9,7 @@
 </script>
 
 <div class="outer">
-  <img class="inner" src={src} alt="missing" />
+  <img class="inner" src={src} alt="missing image" />
   <Button color="yellow"  class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
 </div>
 
@@ -18,6 +18,8 @@
     max-width: 500px;
   }
   .inner {
-    max-width: 100%; height:auto;
+    max-width: 100%; 
+    height:auto;
+    margin: 1em;
   }
 </style>

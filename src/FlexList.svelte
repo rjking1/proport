@@ -6,20 +6,19 @@
 
   export let what;
   export let parent_id;
+  export let selected_id;
   export let items;
   export let onSelect;
   export let onAdded=null;
-
   export let bg;
 
-  let selectedName = '';
-
   function handleSelect(item) {
-    // console.log("FlexList handling select for item=", item)
-    selectedName = item.Name;
+    console.log("FlexList handling select for item=", item)
+    selected_id = item.ID;
     // console.log(selectedName)
     onSelect(item);
   }
+
   async function doAdd() {
     let name = prompt(`${what} name`)
     if(name !== null){
@@ -55,9 +54,9 @@
 </script>
 
 <!-- <ProjectHeader /> -->
-<div class="itemlist" style="background-color:{bg};">
+<div class="itemlist">
   {#each items as item}
-    <FlexItem item={item} onSelect={() => handleSelect(item)} highlight={item.Name===selectedName} />
+    <FlexItem item={item} onSelect={() => handleSelect(item)} highlight={item.ID===selected_id} bg={bg}/>
   {/each}
   <button on:click={doAdd}>
     + Add {what}
