@@ -23,11 +23,24 @@
     <br><span><small>{item.Text.slice(0,180)}</small></span>
   {/if}
   {#if item.type === 'image'}
-    <br><span><img width="100px" height="100px" src={item.Text} alt="x"/></span>
+    <div class="img_outer">
+      <div class="img_inner"><img src={item.Text} alt="x"/></div>
+    </div>
   {/if}
 </div>
 
 <style>
+  .img_outer {
+    height: 120px;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+    overflow: hidden;
+    margin:5px;
+  }
+  .img_inner {
+    width:150px;
+  }
   .region {
     height: 180px;
     width: 300px;

@@ -56,7 +56,7 @@
     projects = await doFetch(
       $dbN,
       // `select ID, Name, Progress from projects where portfolio_id=${portfolio_id} order by id`
-      `select p.ID, p.Name, i.Name as type, i.Text from projects p left join items i on i.project_id=p.id where portfolio_id=${portfolio_id} and i.ID = (select max(ID) from items where project_id=p.ID) order by id`
+      `select p.ID, p.Name, i.Name as type, i.Text from projects p left join items i on i.project_id=p.id and i.ID = (select max(ID) from items where project_id=p.ID) where portfolio_id=${portfolio_id} order by id`
     );
   }
 
