@@ -64,11 +64,8 @@
             <input class="mt-2" type="file" on:input="{on_file_input}" />
           </div>
         </div>
-        <!-- <div>
-          <span>Base64</span>
-          </div> -->
-          {#if base64String}
-          <textarea class="h-40" value="{base64String}" readonly></textarea>
+        {#if base64String}
+          <!-- <textarea class="h-40" value="{base64String}" readonly></textarea> -->
           <Button class="mt-4" type="button" on:click={doAddOrUpdate}>
             Add
           </Button>

@@ -20,7 +20,7 @@
 <div class="region" style="background-color:{col(highlight)}; border:{bdr(highlight)};" on:click={() => onSelect(item)}>
   <span><b>{item.Name}</b></span>
   {#if item.type === 'text'}
-    <br><span><small>{item.Text}</small></span>
+    <br><span><small>{item.Text.slice(0,180)}</small></span>
   {/if}
   {#if item.type === 'image'}
     <br><span><img width="100px" height="100px" src={item.Text} alt="x"/></span>
