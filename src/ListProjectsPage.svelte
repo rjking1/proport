@@ -32,8 +32,8 @@
       selectedProjectID = $selections[2]
       // await queryPortfolios(selectedInterestID);
       // await queryProjects(selectedPortfolioID);
-      interestSelected(selectedInterestID);
-      portfolioSelected(selectedPortfolioID);
+      await interestSelected(selectedInterestID);
+      await portfolioSelected(selectedPortfolioID);
       // selected project?
     }
   }
@@ -41,14 +41,14 @@
   async function queryInterests() {
     interests = await doFetch(
       $dbN,
-      `select ID, Name from interests where user_id=${user_id} order by id`
+      `select ID, Name from interests where user_id=${user_id} order by id desc`
     );
   }
 
   async function queryPortfolios(interest_id) {
     portfolios = await doFetch(
       $dbN,
-      `select ID, Name from portfolios where interest_id=${interest_id} order by id`
+      `select ID, Name from portfolios where interest_id=${interest_id} order by id desc`
     );
   }
 
@@ -56,7 +56,7 @@
     projects = await doFetch(
       $dbN,
       // `select ID, Name, Progress from projects where portfolio_id=${portfolio_id} order by id`
-      `select p.ID, p.Name, i.Name as type, i.Text from projects p left join items i on i.project_id=p.id and i.ID = (select max(ID) from items where project_id=p.ID) where portfolio_id=${portfolio_id} order by id`
+      `select p.ID, p.Name, i.Name as type, i.Text from projects p left join items i on i.project_id=p.id and i.ID = (select max(ID) from items where project_id=p.ID) where portfolio_id=${portfolio_id} order by id desc`
     );
   }
 

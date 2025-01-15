@@ -5,6 +5,7 @@
 
   // import { onMount } from "svelte";
   import { push, querystring, replace } from "svelte-spa-router";
+  import Compressor from 'compressorjs';
 
   export let params;
   let user_id = params["uid"];
@@ -18,21 +19,36 @@
 	function on_file_input(e) {
 		let file = (e.target).files?.[0];
 
-    let reader = new FileReader();
-
-    reader.onload = function () {
-        base64String = reader.result;
-        // console.log(base64String);
+    if (!file) {
+      return;
     }
-    reader.readAsDataURL(file);
+
+    new Compressor(file, {
+      quality: 0.8,
+      maxWidth: 1024,
+      // access compression `result` in the `success` hook function.
+      success(comp) {
+        let reader = new FileReader();
+        reader.onload = function () {
+          base64String = reader.result;
+          let blen = ~~(base64String.length/1024);
+          console.log(blen, 'Kb compressed')
+          if(blen > 700) {
+            alert(`${blen}Kb image (encoded) is probably too large to add.`)
+          }
+        }
+        reader.readAsDataURL(comp);
+      },
+      error(err) {
+        console.log(err.message);
+      },
+    });
   }
 
   //fetch('https://www.artspace7.com.au/dsql/json_helper_get.php?db=art25285_rides2&sql=select%20*%20from%20bikes')
 
   async function doAddOrUpdate() {
     const sql =
-      // id === ""
-      //   ? 
         "INSERT INTO items (name, text, project_id, user_id) " +
           "values ('image','" +
           base64String +
@@ -40,12 +56,6 @@
           project_id + "," +
           user_id +
           ")";
-        // : "REPLACE INTO items (id,text,project_id) " +
-        //   "values ('" +
-        //   text.replace(/'/g, "''") +
-        //   "'," +
-        //   project_id +
-        //   ")";
     qresult = await doFetch($dbN, sql);
     console.log(qresult);
 

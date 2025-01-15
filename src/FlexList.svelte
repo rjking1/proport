@@ -13,10 +13,14 @@
   export let bg;
 
   function handleSelect(item) {
-    console.log("FlexList handling select for item=", item)
+    // console.log("FlexList handling select for item=", item)
     selected_id = item.ID;
     // console.log(selectedName)
     onSelect(item);
+  }
+
+  function handleAlter(item) {
+    onAdded(item)
   }
 
   async function doAdd() {
@@ -48,7 +52,7 @@
       }
     }
     else {
-      alert("Not implemented yet")
+      // alert("Not implemented yet")
     }
   }
 </script>
@@ -56,7 +60,8 @@
 <!-- <ProjectHeader /> -->
 <div class="itemlist">
   {#each items as item}
-    <FlexItem item={item} onSelect={() => handleSelect(item)} highlight={item.ID===selected_id} bg={bg}/>
+    <FlexItem item={item} onSelect={() => handleSelect(item)} highlight={item.ID===selected_id} bg={bg} />
+    <!-- onAlter={()=>handleAlter(item)} -->
   {/each}
   <button on:click={doAdd}>
     + Add {what}

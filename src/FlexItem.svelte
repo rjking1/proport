@@ -20,7 +20,7 @@
   }
 
   function onDelete(item) {
-    if(confirm("Are you sure you want t delete " + item.Name + "?")) {
+    if(confirm("Are you sure you want to delete " + item.Name + "?")) {
       // delete from ...
     }
   }
