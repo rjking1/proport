@@ -1,5 +1,5 @@
 <script>
-  import { Textarea, P, Button } from "flowbite-svelte";
+  import { Button, Popover } from "flowbite-svelte";
 
   export let item;
   export let onSelect;
@@ -14,13 +14,36 @@
     return highlight === true ? "2px solid black" : "1px solid black"; 
   }
 
+  function onRename(item) {
+    let newName = prompt("New name", item.Name)
+    // replace into ...
+  }
+
+  function onDelete(item) {
+    if(confirm("Are you sure you want t delete " + item.Name + "?")) {
+      // delete from ...
+    }
+  }
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <div class="region" style="background-color:{col(highlight)}; border:{bdr(highlight)};" on:click={() => onSelect(item)}>
   <span><b>{item.Name}</b></span>
+
+  <Button id="b2" color="none" >...</Button>
+  <Popover triggeredBy="#b2" class="w-48  text-sm font-light text-gray-500 bg-white dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800">
+    <div class="p-3">
+      <div class="flex justify-between items-center mb-2">
+        <Button size="xs" on:click={()=> onRename(item)}>Rename</Button>
+        <Button size="xs" on:click={()=> onDelete(item)}>Delete</Button>
+      </div>
+    </div>
+  </Popover>
+
   {#if item.type === 'text'}
-    <br><span><small>{item.Text.slice(0,180)}</small></span>
+    <div class="img_outer">
+      <div class="img_inner"><small>{item.Text}</small></div>
+    </div>
   {/if}
   {#if item.type === 'image'}
     <div class="img_outer">
@@ -49,6 +72,5 @@
     padding: 10px;
     margin: 10px;
     text-align: center;
-    vertical-align: auto  ;
   }
 </style>

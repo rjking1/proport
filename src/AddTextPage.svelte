@@ -48,9 +48,9 @@
   <div xclass="w-full max-w-xs">
     <br>
     <form>
-      <div>
-        <Textarea  bind:value={text} />
-        <br>
+      <div class="x">
+        <Textarea rows=10 bind:value={text} />
+        <br>  
         <Button class="mt-4" type="button" on:click={doAddOrUpdate}>
           <!-- {#if id === ""}Add Text{:else}Update Text{/if} -->
           Add
@@ -59,3 +59,9 @@
     </form>
   </div>
 </main>
+
+<style>
+  .x {
+    margin: 1em;  
+  }
+</style>

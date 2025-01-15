@@ -54,7 +54,7 @@
 </script>
 
 <main>
-  <div xclass="w-full max-w-xs">
+  <div class="x">
     <br>
     <form>
       <div>
@@ -70,9 +70,29 @@
             Add
           </Button>
           <br>
-          <img src={base64String} alt="missing" />
+          <br>
+          <div class="outer">
+            <div class="inner">
+              <img src={base64String} alt="not found" />
+            </div>
+          </div>
         {/if}
       </div>
     </form>
   </div>
 </main>
+
+<style>
+  .x {
+    margin: 1em;
+  }
+  .outer {
+    width: 500px;
+  }
+  .inner {
+    max-width: 100%; 
+    height:auto;
+    padding: 0.5em;
+    background-color: whitesmoke;
+  }
+</style>

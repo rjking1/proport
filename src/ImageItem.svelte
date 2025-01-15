@@ -8,18 +8,17 @@
 
 </script>
 
-<div class="outer">
-  <img class="inner" src={src} alt="missing image" />
+<div class="inner">
+  <img  src={src} alt="not found" />
   <Button color="yellow"  class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
 </div>
 
 <style>
-  .outer {
-    max-width: 500px;
-  }
   .inner {
     max-width: 100%; 
     height:auto;
-    margin: 1em;
+    margin: 0.5em;
+    padding: 0.5em;
+    background-color: whitesmoke;
   }
 </style>
