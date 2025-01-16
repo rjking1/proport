@@ -8,22 +8,20 @@ import { POST_PHP } from "./config"
 // }
 
 export async function doFetch(db, sql, auditText?) {
-  let formData = new FormData()
-  formData.append('db', db)
-  formData.append('sql', encodeURI(sql))
+  console.log(sql);
+  let formData = new FormData();
+  formData.append("db", db);
+  formData.append("sql", encodeURI(sql));
   if (auditText) {
-    formData.append('audit_text', auditText)
+    formData.append("audit_text", auditText);
   }
-  //formData.append('noenc', 'true') 
+  //formData.append('noenc', 'true')
 
-  let resp = await fetch(
-    POST_PHP,
-    {
-      method: 'POST',
-      body: formData,
-    },
-  )
-  let j = await resp.json()
+  let resp = await fetch(POST_PHP, {
+    method: "POST",
+    body: formData,
+  });
+  let j = await resp.json();
   //console.log(j)
-  return j
+  return j;
 }

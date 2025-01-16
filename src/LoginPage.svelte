@@ -44,9 +44,9 @@
       console.log($dbN);
       $loggedIn = "true";
 
-      localStorage.dbN = $dbN; // so cn refresh on phone
+      localStorage.dbN = $dbN; // so cn refresh pages
+      localStorage.permissions = $permissions; 
       $selections = undefined; // clear selections
-      // localStorage.permissions = $permissions; // only needed if capab need checking elsewhere
 
       // qresult = await doFetch(
       //   $dbN,

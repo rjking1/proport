@@ -86,9 +86,9 @@
     push(`/project/${user_id}/${selectedProjectID}`);
   }
 
-  async function interestAdded() {
-    await queryInterests();
-  }
+  // async function interestListAltered() {
+  //   await queryInterests();
+  // }
 </script>
 
 <!-- <button type="button" on:click={doList}>List</button> -->
@@ -96,13 +96,13 @@
 <!-- <Heading tag="h5" class="ml-4">Interests</Heading> -->
 <!-- <ProjectList projects={qresult} onEdit={(item) => handleEdit(item)} /> -->
 {#if interests}
-  <FlexList parent_id=0 selected_id={selectedInterestID} what="Interest" items={interests} bg="PapayaWhip"  onSelect={(item) => interestSelected(item.ID)} onAdded={()=>interestAdded()} />
+  <FlexList parent_id=0 selected_id={selectedInterestID} what="Interest" items={interests} bg="PapayaWhip"  onSelect={async(item) => await interestSelected(item.ID)} onRefresh={async ()=>await queryInterests()} />
 {/if}
 <hr>
 {#if portfolios}
-  <FlexList parent_id={selectedInterestID} selected_id={selectedPortfolioID} what="Portfolio" items={portfolios} bg="#D9FEE5" onSelect={(item) => portfolioSelected(item.ID)} />
+  <FlexList parent_id={selectedInterestID} selected_id={selectedPortfolioID} what="Portfolio" items={portfolios} bg="#D9FEE5" onSelect={async(item) => await portfolioSelected(item.ID)} onRefresh={async ()=>await queryPortfolios(selectedInterestID)} />
 {/if}
 <hr>
 {#if projects}
-  <FlexList parent_id={selectedPortfolioID} selected_id={selectedProjectID} what="Project" items={projects} bg="aliceblue"  onSelect={(item) => projectSelected(item.ID)} />
+  <FlexList parent_id={selectedPortfolioID} selected_id={selectedProjectID} what="Project" items={projects} bg="aliceblue"  onSelect={async(item) => await projectSelected(item.ID)} onRefresh={async ()=> await queryProjects(selectedPortfolioID)} />
 {/if}

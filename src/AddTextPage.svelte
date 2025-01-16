@@ -49,7 +49,8 @@
     <br>
     <form>
       <div class="x">
-        <Textarea rows=10 bind:value={text} />
+        <!-- <Textarea rows=10 bind:value={text} />         -->
+        <textarea bind:value={text}/>
         <br>  
         <Button class="mt-4" type="button" on:click={doAddOrUpdate}>
           <!-- {#if id === ""}Add Text{:else}Update Text{/if} -->
@@ -63,5 +64,10 @@
 <style>
   .x {
     margin: 1em;  
+  }
+  textarea {
+    field-sizing: content;
+    width: 100%;
+    max-width: 1024px;
   }
 </style>
