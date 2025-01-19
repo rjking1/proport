@@ -2,7 +2,7 @@
   import FlexList from "./FlexList.svelte";
 
   import { doFetch } from "./common";
-  import { dbN, selections } from "./stores";
+  import { dbN, permissions, selections } from "./stores";
 
   import { onMount } from "svelte";
   import { push } from "svelte-spa-router";
@@ -21,8 +21,12 @@
   let selectedProjectID;
 
   onMount(async () => {
-    await setSelections();
-  });
+    // if ($permissions == undefined) {
+    //   push("/") // force relogin
+    // } else {
+      await setSelections();
+    // }
+  }); 
   
   async function setSelections() {
     await queryInterests();
@@ -41,22 +45,38 @@
   async function queryInterests() {
     interests = await doFetch(
       $dbN,
-      `select ID, Name from interests where user_id=${user_id} order by id desc`
+      // `select ID, Name from interests where user_id=${user_id} order by id desc`
+      `select j.ID as ID, j.Name as Name, 'image' as type,
+      (select i.Text from projects p 
+        join items i on i.project_id=p.id and i.name='image'
+        join portfolios f on p.portfolio_id=f.id
+        where f.interest_id=j.id order by rand() limit 1 ) as Text
+      from interests j where user_id=${user_id} order by id desc`
     );
   }
 
   async function queryPortfolios(interest_id) {
     portfolios = await doFetch(
       $dbN,
-      `select ID, Name from portfolios where interest_id=${interest_id} order by id desc`
-    );
+      // `select ID, Name from portfolios where interest_id=${interest_id} order by id desc`
+
+      // random image from  all project items under each portfoiio, if exists
+      // what magic is the order by rand() ??
+      `select f.ID as ID, f.Name as Name, 'image' as type,
+      (select i.Text from projects p  join items i on i.project_id=p.id and i.name='image'  
+        where p.portfolio_id=f.id order by rand() limit 1 ) as Text
+      from portfolios f where f.interest_id=${interest_id} order by id desc`
+      );
+    // console.log(portfolios);
   }
 
   async function queryProjects(portfolio_id) {
     projects = await doFetch(
       $dbN,
       // `select ID, Name, Progress from projects where portfolio_id=${portfolio_id} order by id`
-      `select p.ID, p.Name, i.Name as type, i.Text from projects p left join items i on i.project_id=p.id and i.ID = (select max(ID) from items where project_id=p.ID) where portfolio_id=${portfolio_id} order by id desc`
+      `select p.ID, p.Name, i.Name as type, i.Text from projects p left join items i on i.project_id=p.id and 
+        i.ID = (select max(ID) from items where project_id=p.ID and Name='image'
+        ) where portfolio_id=${portfolio_id} order by id desc`
     );
   }
 

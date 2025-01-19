@@ -11,25 +11,6 @@
   function bdr(highlight) {
     return highlight === true ? "2px solid black" : "1px solid black"; 
   }
-
-  // function onRename(item) {
-  //   let newName = prompt("New name", item.Name)
-  //   // replace into ...
-  // }
-
-  // async function onDelete(item) {
-
-  // import { doFetch } from "./common";
-  // import { dbN, permissions } from "./stores";
-
-  //   let qresult = await doFetch(
-  //     $dbN,
-  //     `select count(*) from projects where portfolio_id=${id}` 
-  //   );
-  //   if(confirm("Are you sure you want to delete " + item.Name + "?")) {
-  //     // delete from ...
-  //   }
-  // }
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -48,7 +29,7 @@
       <div class="img_inner"><small>{item.Text}</small></div>
     </div>
   {/if}
-  {#if item.type === 'image'}
+  {#if item.type === 'image' && item.Text != null}
     <div class="img_outer">
       <div class="img_inner"><img src={item.Text} alt="x"/></div>
     </div>

@@ -89,13 +89,15 @@
 
 <!-- <ProjectHeader /> -->
 <div class="itemlist">
+  {#if $permissions}
+  <button style="width:60px" on:click={doAdd}>
+    &nbsp;Add<br>&nbsp;{what}
+  </button>
+  {/if}
   {#each items as item}
     <FlexItem item={item} onAction={async(action, item) => await handleAction(action, item)} highlight={item.ID===selected_id} bg={bg} />
     <!-- onAlter={()=>handleAlter(item)} -->
   {/each}
-  <button on:click={doAdd}>
-    + Add {what}
-  </button>
 </div>
 
 <style>

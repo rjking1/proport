@@ -3,7 +3,8 @@
   import Router, { push } from "svelte-spa-router";
   import { routes } from "./routes";
   import { onMount } from "svelte";
-  import { DarkMode, Heading } from "flowbite-svelte";
+  import { DarkMode, Heading, Button } from "flowbite-svelte";
+  import { dbN, permissions, selections } from "./stores";
   import MainMenu from "./MainMenu.svelte";
   import { Navbar, NavBrand, NavLi, NavUl, NavHamburger } from "flowbite-svelte";
 
@@ -12,37 +13,20 @@
     $dbName = urlParams.get("db");
   }
 
-  let ride = undefined;
-
-  function handleEdit(editRide) {
-    ride = editRide;
-    push("/add");
-
-    // see https://github.com/ItalyPaleAle/svelte-spa-router/blob/HEAD/Advanced%20Usage.md#static-props
-
-    //  const routes = {
-    //     '/': wrap({
-    //         component: Foo,
-    //         // Static props
-    //         props: {
-    //             num: 42
-    //         }
-    //     })
-    // }
-
-  }
-
-  function handleDone() {
-    ride = undefined;
-    push("/list");
-  }
-  
 </script>
 
 <main>
   <div class="flex flex-row mt-4">
     <DarkMode />
-    <Heading tag="h3" class="bg-blue-100">Project Tracker</Heading>
+    <div class="x">
+      <Heading tag="h3" class="bg-blue-100">Project Tracker</Heading>
+      {#if $permissions}
+      <Button color="light" on:click={()=>push('/')}>{$permissions.u_name}<br>signed in</Button>
+      {/if}
+      {#if !$permissions}
+      <Button color="light" on:click={()=>push('/')}>Sign in</Button>
+      {/if}
+    </div>
   </div>
   <Router {routes} />
   <!-- <MainMenu /> -->
@@ -57,5 +41,16 @@
   </Navbar> -->
 </main>
 
-<!-- <div class="p-8 overflow-hidden bg-gray-50 dark:bg-gray-900"> -->
-<!-- </div> -->
+<style>
+  .x {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  }
+  .button {
+    border: 1px;
+    border-color: black;
+    background-color: rgb(189, 132, 58);
+  }
+</style>
+
