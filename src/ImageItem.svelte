@@ -1,5 +1,6 @@
 <script>
   import { Button } from "flowbite-svelte";
+  import { dbN, permissions } from "./stores";
 
   export let item;
   export let onDelete;
@@ -10,7 +11,9 @@
 
 <div class="inner">
   <img  src={src} alt="not found" />
+  {#if $permissions}
   <Button color="yellow"  class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
+  {/if}
 </div>
 
 <style>

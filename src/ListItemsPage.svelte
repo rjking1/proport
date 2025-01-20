@@ -49,7 +49,9 @@
 <br>
 {#if qresult}
   <Heading tag="h3" class="ml-4">{qresult[0]["p_name"]}</Heading>
+  {#if $permissions}
   <Button class="ml-4 mt-4 mb-4" on:click={handleAddText}>Add text</Button>
   <Button class="ml-4 mt-4 mb-4" on:click={handleAddImage}>Add image</Button>
+  {/if}
   <ItemList project_id={project_id} items={qresult} />
 {/if}

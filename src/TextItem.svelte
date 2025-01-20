@@ -1,5 +1,6 @@
 <script>
   import { Textarea, Button } from "flowbite-svelte";
+  import { dbN, permissions } from "./stores";
 
   export let item;
   export let onDelete;
@@ -14,7 +15,9 @@
   <!-- </div> -->
 
   <br>
+  {#if $permissions}
   <Button color="yellow" class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
+  {/if}
 </div>
 
 <style>
