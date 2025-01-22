@@ -10,15 +10,15 @@
 <div class="x">
   <!-- <div class="y">{item.Text}</div> -->
     <!-- <Textarea placeholder={item.Text} rows=10 readonly /> -->
-    <textarea>{item.Text}</textarea>
+    <textarea bind:value={item.Text}>{item.Text}</textarea>
     <!-- <p contenteditable="true">{item.Text}</p>  -->
     <!-- {item.Text} -->
   <!-- </div> -->
 
   <br>
   {#if $permissions}
-  <Button color="yellow" class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
-  <Button color="green" class="m-4" on:click={onEdit(item.ID)}>Save</Button>
+  <Button color="yellow" class="m-4" on:click={()=>onDelete(item.ID)}>Delete</Button>
+  <Button color="green" class="m-4" on:click={()=>onEdit(item.ID, item.Text)}>Update</Button>
   {/if}
 </div>
 

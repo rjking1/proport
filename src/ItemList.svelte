@@ -8,6 +8,16 @@
   export let project_id;
   export let items;
 
+  async function handleEdit(id,text) {
+    console.log("onEdit called back in itemList with id=", id, "text=", text)
+
+    let qresult = await doFetch(
+        $dbN,
+        `update items set text='${text.replace(/'/g, "''")}' where id=${id}` 
+      );
+      console.log(qresult);
+    }
+
   async function handleDelete(id) {
     console.log("onDelete called back in itemList with id=", id)
     if(confirm(`Are you sure you want to delete this item?`)) {
@@ -30,7 +40,7 @@
 <br>
 {#each items as item}
   {#if item.Name != "image"}
-    <TextItem item={item} onDelete={(id)=>handleDelete(id)} onEdit={(id)=>handleEdited(id)} />
+    <TextItem item={item} onDelete={(id)=>handleDelete(id)} onEdit={(id,text)=>handleEdit(id,text)} />
   {:else}  
     <ImageItem item={item} onDelete={(id)=>handleDelete(id)} />
   {/if}
