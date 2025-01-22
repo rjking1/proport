@@ -102,7 +102,15 @@
 
 <style>
   .itemlist {
-    display:flex;
-    xflex-wrap: wrap;
+    display: flex;
+    /* https://www.geeksforgeeks.org/make-a-div-horizontally-scrollable-using-css/ */
+    margin: 5px auto;
+    padding: 15px;
+    /* max-width: 600px; */
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    /* border: 1px solid #ddd; */
+    /* to hide scrollbars see https://stackoverflow.com/questions/16670931/hide-scroll-bar-but-while-still-being-able-to-scroll*/
   }
 </style>

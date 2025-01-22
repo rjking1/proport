@@ -1,83 +1,47 @@
-# Svelte TS Starter
+# Svelte + TS + Vite
 
-[![](https://img.shields.io/static/v1?label=Sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/shinokada)
+This template should help get you started developing with Svelte and TypeScript in Vite.
 
+## Recommended IDE Setup
 
-This Svelte TS starter template provides a foundation for developing with Svelte and Vite, including preconfigured support for Typescript, TailwindCSS, Flowbite-Svelte, and Svelte-Spa-Router. Additionally, it includes a sample implementation of fetching data from a backend API, making it easy to integrate with your own server-side infrastructure.
+[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
 
-- Vite
-- Svelte
-- Typescript
-- Tailwind CSS
-- Flowbite-Svelte
-- Svelte-Spa-Router
+## Need an official Svelte framework?
 
-## Installation
+Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, with out of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
 
-```bash
-git clone git@github.com:shinokada/svelte-ts-starter.git my-app
-cd my-app
-pnpm i
-```
+## Technical considerations
 
-## Backend API env value
+**Why use this over SvelteKit?**
 
-Update your backend API value in `.env`:
+- It brings its own routing solution which might not be preferable for some users.
+- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
 
-```text
-API_ENDPOINT=http://localhost:3000/api
-API_SECRET=1234
-```
+This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
 
-## Start a local server
+Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
 
-```bash
-npm run dev
-```
+**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
 
-## How to use this for GitHub page
+Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
 
-There is the `github-page` branch. Please note that it is not gh-pages.
-Checkout to this branch and install packages, build and deploy.
+**Why include `.vscode/extensions.json`?**
 
-```
-git checkout github-page
-pnpm i
-npm run build
-npm run deploy
-```
+Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
 
-This will deploy your GitHub page to `https://<username>.github.io/<repository name>` URL. Don’t forget to change the username and repository name to your personal Github username and repository.
-It may take a couple of minutes. You can check the progress in GitHub Actions tab.
+**Why enable `allowJs` in the TS template?**
 
-## DIY GitHub pages
+While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
 
-```bash
-pnpm i -D gh-pages
-```
+**Why is HMR not preserving my local component state?**
 
-Add the following to the package.json scripts:
+HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
 
-```json
- "deploy": "npx gh-pages -d dist"
-```
+If you have state that's important to retain within a component, consider creating an external store which would not be replaced by HMR.
 
-Update vite.config.ts
-
-```
-import { defineConfig } from 'vite'
-import { svelte } from '@sveltejs/vite-plugin-svelte'
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  base: "/svelte-ts-starter/",
-  plugins: [svelte()],
-})
-```
-
-Build and deploy:
-
-```bash
-npm run build
-npm run deploy
+```ts
+// store.ts
+// An extremely simple external store
+import { writable } from 'svelte/store'
+export default writable(0)
 ```

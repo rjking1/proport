@@ -10,17 +10,19 @@
 
   async function handleDelete(id) {
     console.log("onDelete called back in itemList with id=", id)
-    let qresult = await doFetch(
-      $dbN,
-      `delete from items where id=${id}` 
-    );
-    console.log(qresult);
-    qresult = await doFetch(
-      $dbN,
-      `select p.name as p_name, i.* from projects p join items i on p.id = i.project_id where p.id=${project_id} order by i.id desc` 
-    );
-    console.log(qresult);
-    items = qresult;
+    if(confirm(`Are you sure you want to delete this item?`)) {
+      let qresult = await doFetch(
+        $dbN,
+        `delete from items where id=${id}` 
+      );
+      console.log(qresult);
+      qresult = await doFetch(
+        $dbN,
+        `select p.name as p_name, i.* from projects p join items i on p.id = i.project_id where p.id=${project_id} order by i.id desc` 
+      );
+      console.log(qresult);
+      items = qresult;
+    }
   }
 </script>
 
@@ -28,7 +30,7 @@
 <br>
 {#each items as item}
   {#if item.Name != "image"}
-    <TextItem item={item} onDelete={(id)=>handleDelete(id)} />
+    <TextItem item={item} onDelete={(id)=>handleDelete(id)} onEdit={(id)=>handleEdited(id)} />
   {:else}  
     <ImageItem item={item} onDelete={(id)=>handleDelete(id)} />
   {/if}

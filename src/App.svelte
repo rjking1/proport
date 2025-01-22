@@ -13,6 +13,14 @@
     $dbName = urlParams.get("db");
   }
 
+  if (urlParams.has("link")) {
+    let link = urlParams.get("link");
+    // let uid = 
+    // $selections = {...}
+    // push(`/list/{uid}`) // this is top level
+    // how are other interests and potfolios/etc not shown?
+  }
+  
 </script>
 
 <main>

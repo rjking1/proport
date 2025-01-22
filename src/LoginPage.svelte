@@ -1,6 +1,5 @@
-<script lang="ts">
+<script>
   import { doFetch } from "./common";
-  // import { gotoPage } from "./pageStack.js";
   import Router, { link, push } from "svelte-spa-router";
   import {
     // society,

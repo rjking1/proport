@@ -4,6 +4,7 @@
 
   export let item;
   export let onDelete;
+  export let onEdit;
 </script>
 
 <div class="x">
@@ -17,6 +18,7 @@
   <br>
   {#if $permissions}
   <Button color="yellow" class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
+  <Button color="green" class="m-4" on:click={onEdit(item.ID)}>Save</Button>
   {/if}
 </div>
 
