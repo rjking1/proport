@@ -4,6 +4,7 @@
 
   import TextItem from "./TextItem.svelte";
   import ImageItem from "./ImageItem.svelte";
+  import MermaidItem from "./MermaidItem.svelte";
 
   export let project_id;
   export let items;
@@ -39,9 +40,13 @@
 <!-- <h1>Items</h1> -->
 <br>
 {#each items as item}
-  {#if item.Name != "image"}
+  {#if item.Name == "text"}
     <TextItem item={item} onDelete={(id)=>handleDelete(id)} onEdit={(id,text)=>handleEdit(id,text)} />
-  {:else}  
+  {/if}
+  {#if item.Name == "image"}
     <ImageItem item={item} onDelete={(id)=>handleDelete(id)} />
+  {/if}
+  {#if item.Name == "mermaid"}
+    <MermaidItem item={item} onDelete={(id)=>handleDelete(id)} />
   {/if}
 {/each}
