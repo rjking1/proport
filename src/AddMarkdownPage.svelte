@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { Button, Input, Select, Textarea } from "flowbite-svelte";
+  import { Button } from "flowbite-svelte";
   import { doFetch } from "./common";
   import { dbN } from "./stores";
-
-  // import { onMount } from "svelte";
+  import { marked } from 'marked'
   import { pop, replace } from "svelte-spa-router";
 
   export let params;
@@ -21,7 +20,7 @@
     // console.log($permissions)
     const sql =
         "INSERT INTO items (name, text, project_id, user_id) " +
-          "values ('text','" +
+          "values ('markdown','" +
           text.replace(/'/g, "''") +
           "'," +
           project_id + "," +
@@ -39,13 +38,19 @@
 <main>
   <div xclass="w-full max-w-xs">
     <br>
-    <form>
+    <!-- <form> -->
       <div class="x">
         <textarea bind:value={text}/>
         <br>  
-        <Button class="mt-4" type="button" on:click={doAddOrUpdate}>Add</Button>
+        <Button class="mt-4" type="button" on:click={doAddOrUpdate}>
+          Add
+        </Button>
+        <hr>
+        {#if text}
+        <div>{@html marked(text)}</div>
+        {/if}
       </div>
-    </form>
+    <!-- </form> -->
   </div>
 </main>
 

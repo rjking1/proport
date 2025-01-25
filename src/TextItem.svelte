@@ -19,7 +19,7 @@
   {#if $permissions}
   <Button color="yellow" class="m-4" on:click={()=>onDelete(item.ID)}>Delete</Button>
   <Button color="green" class="m-4" on:click={()=>onEdit(item.ID, item.Text)}>Update</Button>
-  <span><small>Last updated: {item.DateTime}</small></span>
+  <span><small>{item.DateTime}</small></span>
   {/if}
 </div>
 

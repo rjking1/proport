@@ -48,9 +48,9 @@
     <ImageItem item={item} onDelete={(id)=>handleDelete(id)} />
   {/if}
   {#if item.Name == "mermaid"}
-    <MermaidItem item={item} onDelete={(id)=>handleDelete(id)} />
+    <MermaidItem item={item} onDelete={(id)=>handleDelete(id)} onEdit={(id,text)=>handleEdit(id,text)} />
   {/if}  
   {#if item.Name == "markdown"}
-  <MarkdownItem item={item} onDelete={(id)=>handleDelete(id)} />
-{/if}
+    <MarkdownItem item={item} onDelete={(id)=>handleDelete(id)} onEdit={(id,text)=>handleEdit(id,text)} />
+  {/if}
 {/each}

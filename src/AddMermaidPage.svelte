@@ -1,9 +1,8 @@
 <script lang="ts">
-  import { Button, Input, Select, Textarea } from "flowbite-svelte";
+  import { Button } from "flowbite-svelte";
   import { doFetch } from "./common";
   import { dbN } from "./stores";
-
-  // import { onMount } from "svelte";
+  import mermaid from 'mermaid';
   import { pop, replace } from "svelte-spa-router";
 
   export let params;
@@ -12,23 +11,35 @@
 
   $dbN = localStorage.dbN;
   
-  let text;
-  let qresult = null;
+  let diagram = "";
+  let container;
+  
+  async function doPreview() {
+    await renderDiagram()
+  }
 
-  //fetch('https://www.artspace7.com.au/dsql/json_helper_get.php?db=art25285_rides2&sql=select%20*%20from%20bikes')
-
+  async function renderDiagram() {
+    // console.log(diagram)
+    if(await mermaid.parse(diagram)) {
+      const {svg} = await mermaid.render('mermaid' + Math.trunc(Math.random() * 1000000), diagram)
+      console.log(svg)
+      container.innerHTML=svg;
+    } else {
+      alert("parse error")
+    }
+  }
   async function doAddOrUpdate() {
     // console.log($permissions)
     const sql =
         "INSERT INTO items (name, text, project_id, user_id) " +
-          "values ('text','" +
-          text.replace(/'/g, "''") +
+          "values ('mermaid','" +
+          diagram.replace(/'/g, "''") +
           "'," +
           project_id + "," +
           user_id +
           ")";
     console.log(sql);
-    qresult = await doFetch($dbN, sql);
+    let qresult = await doFetch($dbN, sql);
     console.log(qresult);
 
     pop();
@@ -39,13 +50,18 @@
 <main>
   <div xclass="w-full max-w-xs">
     <br>
-    <form>
+    <!-- <form> -->
       <div class="x">
-        <textarea bind:value={text}/>
+        <textarea bind:value={diagram}/>
         <br>  
         <Button class="mt-4" type="button" on:click={doAddOrUpdate}>Add</Button>
+        <Button class="mt-4" type="button" on:click={doPreview}>Preview</Button>
+        <hr>
+        <!-- {#if container} -->
+        <div bind:this={container}></div>
+        <!-- {/if} -->
       </div>
-    </form>
+    <!-- </form> -->
   </div>
 </main>
 

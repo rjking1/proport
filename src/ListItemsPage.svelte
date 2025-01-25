@@ -21,7 +21,6 @@
   });
 
   async function doList() {
-    //id = '' // revert to Add mode
     qresult = await doFetch(
       $dbN,
       `select p.name as p_name, i.* from projects p left join items i on p.id = i.project_id where p.user_id=${user_id} and p.id=${project_id} order by datetime desc,i.id desc` 
@@ -37,21 +36,23 @@
     push(`/addimage/${user_id}/${project_id}`);
   }
 
-  function handleEdit(item) {
-    // onEdit(ride);
-    // push(`/add?${item.id}`);
+  function handleAddMarkdown() {
+    push(`/addmarkdown/${user_id}/${project_id}`);
   }
+
+  function handleAddMermaid() {
+    push(`/addmermaid/${user_id}/${project_id}`);
+  }
+
 </script>
-
-<!-- <button type="button" on:click={doList}>List</button> -->
-
-<!-- <Button class="ml-4 mt-4 mb-4" on:click={handleAdd}>Add new item</Button> -->
 <br>
 {#if qresult}
   <Heading tag="h3" class="ml-4">{qresult[0]["p_name"]}</Heading>
   {#if $permissions}
-  <Button class="ml-4 mt-4 mb-4" on:click={handleAddText}>Add text</Button>
-  <Button class="ml-4 mt-4 mb-4" on:click={handleAddImage}>Add image</Button>
+  <Button class="ml-4 mt-4 mb-4" on:click={handleAddText}>Add Text</Button>
+  <Button class="ml-4 mt-4 mb-4" on:click={handleAddImage}>Add Image</Button>
+  <Button class="ml-4 mt-4 mb-4" on:click={handleAddMarkdown}>Add Markdown</Button>
+  <Button class="ml-4 mt-4 mb-4" on:click={handleAddMermaid}>Add Diagram</Button>
   {/if}
   <ItemList project_id={project_id} items={qresult} />
 {/if}

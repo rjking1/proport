@@ -4,6 +4,8 @@ import ListItemsPage from "./ListItemsPage.svelte";
 import NotFound from "./NotFound.svelte";
 import AddTextPage from "./AddTextPage.svelte";
 import AddImagePage from "./AddImagePage.svelte";
+import AddMarkdownPage from "./AddMarkdownPage.svelte";
+import AddMermaidPage from "./AddMermaidPage.svelte";
 import QueryPage from "./QueryPage.svelte";
 
 export const routes = {
@@ -12,6 +14,8 @@ export const routes = {
   "/shared/:uid/:share": ListProjectsPage,
   "/addtext/:uid/:pid": AddTextPage,
   "/addimage/:uid/:pid": AddImagePage,
+  "/addmarkdown/:uid/:pid": AddMarkdownPage,
+  "/addmermaid/:uid/:pid": AddMermaidPage,
   "/project/:uid/:pid": ListItemsPage,
   "/query": QueryPage,
   "*": NotFound,
