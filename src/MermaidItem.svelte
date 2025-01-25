@@ -13,20 +13,25 @@
   let container = "";
 
   // may not be necessary to onMount()
-  onMount(async () => {
-    await renderDiagram();
-    });
+  // onMount(async () => {
+    // await 
+    renderDiagram();
+  // });
 
   async function renderDiagram() {
     console.log(diagram)
-    const {svg} = await mermaid.render('mermaid', diagram)
+    const {svg} = await mermaid.render('mermaid' + Math.trunc(Math.random() * 1000000), diagram)
+    // console.log(svg)
     container.innerHTML=svg;
   }
 
 </script>
 
 <div class="inner">
-  <span bind:this={container}></span>
+  <div bind:this={container}></div>
+  <pre>
+    {diagram}
+  </pre>
   {#if $permissions}
   <Button color="yellow"  class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
   {/if}
@@ -39,5 +44,6 @@
     margin: 0.5em;
     padding: 0.5em;
     background-color: whitesmoke;
+    position: relative;
   }
 </style>

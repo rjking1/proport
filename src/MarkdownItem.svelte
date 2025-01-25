@@ -13,11 +13,15 @@
 
 </script>
 
- <h1>test</h1>
-
 <div class="inner">
   <!-- Convert the markdown to HTML and display it -->
   <div>{@html marked(markdown)}</div>
+  <pre>
+    <hr>
+    <small>
+      {markdown}
+    </small>
+  </pre>
   {#if $permissions}
   <Button color="yellow"  class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
   {/if}
