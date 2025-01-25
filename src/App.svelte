@@ -13,8 +13,8 @@
     $dbName = urlParams.get("db");
   }
 
-  if (urlParams.has("link")) {
-    let link = urlParams.get("link");
+  if (urlParams.has("share")) {
+    let link = urlParams.get("share");
     // let uid = 
     // $selections = {...}
     // push(`/list/{uid}`) // this is top level

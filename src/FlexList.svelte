@@ -23,7 +23,7 @@
       selected_id = item.ID;
       await onSelect(item);
     }
-    if(action=='del') {
+    else if(action=='del') {
       if(confirm(`Are you sure you want to delete "${item.Name}"?`)) {
         console.log(item.ID)
         await doFetch(
@@ -33,7 +33,7 @@
         await onRefresh(); 
       }
     }
-    if(action=='ren') {
+    else if(action=='ren') {
       let newName = prompt("New name", item.Name)
       newName = newName.replace(/'/g, "''") 
       await doFetch(
@@ -41,6 +41,20 @@
           `update ${tableName()} set Name='${newName}' where ID=${item.ID}`
         );     
       await onRefresh(); 
+    }
+    else if(action=='share') {
+      await doFetch(
+          $dbN,
+          `update ${tableName()} set Shared=1-Shared where ID=${item.ID}`
+        );
+      let shared = await doFetch(
+        $dbN,
+        `select Shared from ${tableName()} where ID=${item.ID}`
+      );
+      if (shared[0]['Shared'] == 1) {
+        alert(`${item.Name} is now shared at artspace7.com.au/proport/shared/${$permissions.u_id}/1`)
+      }
+      await onRefresh();
     }
   }
 
@@ -87,7 +101,6 @@
   }
 </script>
 
-<!-- <ProjectHeader /> -->
 <div class="itemlist">
   {#if $permissions}
   <button style="width:60px" on:click={doAdd}>

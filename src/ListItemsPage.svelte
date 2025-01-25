@@ -24,7 +24,7 @@
     //id = '' // revert to Add mode
     qresult = await doFetch(
       $dbN,
-      `select p.name as p_name, i.* from projects p left join items i on p.id = i.project_id where p.user_id=${user_id} and p.id=${project_id} order by i.id desc` 
+      `select p.name as p_name, i.* from projects p left join items i on p.id = i.project_id where p.user_id=${user_id} and p.id=${project_id} order by datetime desc,i.id desc` 
     );
     console.log(qresult);
   }

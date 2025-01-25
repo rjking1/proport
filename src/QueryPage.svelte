@@ -1,11 +1,9 @@
 <script>
+  import { Input, Button } from "flowbite-svelte";
   import { doFetch } from "./common";
   import { dbN } from "./stores";
 
-  let sql =
-    "select r.ride_date, rt.name, b.name, r.km, r.alt_gain, r.description, r.weather from rides r" +
-    " join bikes b on b.id = r.bike_id join routes rt on rt.id = r.route_id" +
-    " where r.ride_date > curdate() - interval 1 month order by ride_date desc";
+  let sql = `select * from interests`
   let qresult = null;
 
   async function doQuery() {
@@ -13,15 +11,11 @@
   }
 </script>
 
-<label>SQL</label>
-<input bind:value={sql} />
+<Input bind:value={sql} />
+<Button on:click={doQuery}>Query</Button>
 
-<button type="button" on:click={doQuery}>Query</button>
-
-<label>Result:</label>
 <pre>
   {#if qresult}
-    Rides
     <ul>
       {#each qresult as row}
         <li>
@@ -33,9 +27,6 @@
 </pre>
 
 <style>
-  input {
-    width: 90%;
-  }
   li {
     list-style: none;
   }

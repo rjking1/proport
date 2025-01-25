@@ -1,4 +1,7 @@
 <script>
+  import { Tooltip } from "flowbite-svelte";
+  import { permissions } from "./stores";
+
   export let item;
   export let onAction;
   export let highlight;
@@ -14,15 +17,33 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div class="region" style="background-color:{col(highlight)}; border:{bdr(highlight)};" on:click={() => onAction('sel', item)}>
   <span>
-    &nbsp; &nbsp;
     <b>{item.Name}</b>
-    <span class="toggleVis">
-      <button on:click|stopPropagation={async()=> await onAction('ren', item)}>✎</button>
-      <button on:click|stopPropagation={async()=> await onAction('del', item)}>🗑</button>
-    </span>
+    {#if $permissions}
+      <span class="rjust toggleVis">
+        {#if item.Shared === '0'}
+        <button on:click|stopPropagation={async()=> await onAction('share', item)}>☐</button>
+        <Tooltip>Shared?</Tooltip>
+        {/if}
+        <button on:click|stopPropagation={async()=> await onAction('ren', item)}>✎</button>
+        <Tooltip>Rename</Tooltip>
+        <button on:click|stopPropagation={async()=> await onAction('del', item)}>🗑</button>
+        <Tooltip>Delete</Tooltip>
+      </span>
+      <span>
+        {#if item.Shared === '1'}
+        <button on:click|stopPropagation={async()=> await onAction('share', item)}>✅</button>
+        <Tooltip>Shared?</Tooltip>
+        {/if}
+      </span>
+    {/if}
   </span>
+
+  <!-- {#if item.Shared == undefined}
+    <span style="font-size:200%">🕸</span>
+  {/if} -->
 
   {#if item.type === 'text'}
     <div class="img_outer">
@@ -53,10 +74,13 @@
     width: 300px;
     /* border: 1px solid black; */
     border-radius: 5px;
-    padding: 10px;
-    margin: 10px;
-    text-align: center;
+    padding: 5px;
+    margin: 7px;
+    xtext-align: center;
   }
-  .toggleVis:hover{opacity:1;}
+  .rjust {
+    float:right;
+  }
+  .toggleVis:hover{opacity:1; transition-delay:0.5s;}
   .toggleVis{opacity:0;}
 </style>
