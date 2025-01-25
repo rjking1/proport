@@ -5,6 +5,7 @@
   import TextItem from "./TextItem.svelte";
   import ImageItem from "./ImageItem.svelte";
   import MermaidItem from "./MermaidItem.svelte";
+  import MarkdownItem from "./MarkdownItem.svelte";
 
   export let project_id;
   export let items;
@@ -48,5 +49,8 @@
   {/if}
   {#if item.Name == "mermaid"}
     <MermaidItem item={item} onDelete={(id)=>handleDelete(id)} />
-  {/if}
+  {/if}  
+  {#if item.Name == "markdown"}
+  <MarkdownItem item={item} onDelete={(id)=>handleDelete(id)} />
+{/if}
 {/each}
