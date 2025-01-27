@@ -19,16 +19,17 @@
    * @param {string} s
    */
   function transformName(s) {
-    // let chars = s.toUpperCase(); //s.replace(/\B\w+/g, "").toUpperCase();
-    // let aye = "A"
-    // let cp1 = chars.codePointAt(0);
-    // let cp2 = chars.codePointAt(1);
-    // let d1 = Math.trunc((cp1 - aye.codePointAt(0))  + 0x2800);  // 0x2648 zodiac
-    // let d2 = Math.trunc((cp2 - aye.codePointAt(0))  + 0x2800);
-    // return String.fromCharCode(d2) + String.fromCharCode(d1);
+    let chars = s; //.toUpperCase(); //s.replace(/\B\w+/g, "").toUpperCase();
+    let aye = "A"
+    let ayel = "a"
+    let cp1 = chars.codePointAt(0);
+    let cp2 = chars.codePointAt(1);
+    let d1 = Math.trunc((cp1 - aye.codePointAt(0))  + 0x2d31); // );  // 0x2648 zodiac  // Tifinagh 0x2d30
+    let d2 = Math.trunc((cp2 - ayel.codePointAt(0))  + 0x2d4b);
+    return String.fromCharCode(d1) + String.fromCharCode(d2);
 
-    let b = s.slice(0,2).toUpperCase().split("").map(c => "⠀⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿"[" A1B'K2L@CIF/MSP\"E3H9O6R^DJG>NTQ,*5<-U8V.%[$+X!&;:4\\0Z7(_?W]#Y)=".indexOf(c)]).join("");
-    return b;
+    // let b = s.slice(0,2).toUpperCase().split("").map(c => "⠀⠁⠂⠃⠄⠅⠆⠇⠈⠉⠊⠋⠌⠍⠎⠏⠐⠑⠒⠓⠔⠕⠖⠗⠘⠙⠚⠛⠜⠝⠞⠟⠠⠡⠢⠣⠤⠥⠦⠧⠨⠩⠪⠫⠬⠭⠮⠯⠰⠱⠲⠳⠴⠵⠶⠷⠸⠹⠺⠻⠼⠽⠾⠿"[" A1B'K2L@CIF/MSP\"E3H9O6R^DJG>NTQ,*5<-U8V.%[$+X!&;:4\\0Z7(_?W]#Y)=".indexOf(c)]).join("");
+    // return b;
   }
 </script>
 
