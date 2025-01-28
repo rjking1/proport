@@ -78,7 +78,7 @@
     projects = await doFetch(
       $dbN,
       `select p.ID, p.Name, p.Shared, i.Name as type, i.Text from projects p left join items i on i.project_id=p.id and 
-        i.ID = (select max(ID) from items where project_id=p.ID and Name='image') 
+        i.ID = (select max(ID) from items where project_id=p.ID) 
         where portfolio_id=${portfolio_id} and ${where_shared}
         order by p.datetime desc, p.id desc`
     );
