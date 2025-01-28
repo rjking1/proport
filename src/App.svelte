@@ -55,10 +55,5 @@
   display: flex;
   justify-content: space-between;
   }
-  .button {
-    border: 1px;
-    border-color: black;
-    background-color: rgb(189, 132, 58);
-  }
 </style>
 

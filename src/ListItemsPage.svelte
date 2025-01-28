@@ -23,9 +23,13 @@
   async function doList() {
     qresult = await doFetch(
       $dbN,
-      `select p.name as p_name, i.* from projects p left join items i on p.id = i.project_id where p.user_id=${user_id} and p.id=${project_id} order by datetime desc,i.id desc` 
+      `select p.name as p_name, i.* from projects p left join items i on p.id = i.project_id where p.user_id=${user_id} and p.id=${project_id} order by i.sortorder desc,i.id desc` 
     );
     console.log(qresult);
+  }
+
+  async function handleRefresh() {
+    await doList()
   }
 
   function handleAddText() {
@@ -54,5 +58,5 @@
   <Button class="ml-4 mt-4 mb-4" on:click={handleAddMarkdown}>Add Markdown</Button>
   <Button class="ml-4 mt-4 mb-4" on:click={handleAddMermaid}>Add Diagram</Button>
   {/if}
-  <ItemList project_id={project_id} items={qresult} />
+  <ItemList project_id={project_id} items={qresult} onRefresh={handleRefresh} />
 {/if}

@@ -31,12 +31,13 @@
   async function doAddOrUpdate() {
     // console.log($permissions)
     const sql =
-        "INSERT INTO items (name, text, project_id, user_id) " +
+        "INSERT INTO items (name, text, project_id, user_id, sortorder) " +
           "values ('mermaid','" +
           diagram.replace(/'/g, "''") +
           "'," +
           project_id + "," +
-          user_id +
+          user_id + "," +
+          "(select Max(i2.id) + 1 from items i2)" +
           ")";
     console.log(sql);
     let qresult = await doFetch($dbN, sql);
@@ -52,7 +53,7 @@
     <br>
     <!-- <form> -->
       <div class="x">
-        <textarea bind:value={diagram}/>
+        <textarea bind:value={diagram}></textarea>
         <br>  
         <Button class="mt-4" type="button" on:click={doAddOrUpdate}>Add</Button>
         <Button class="mt-4" type="button" on:click={doPreview}>Preview</Button>

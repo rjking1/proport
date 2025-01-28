@@ -7,6 +7,7 @@
   export let item;
   export let onDelete;
   export let onEdit;
+  export let onMove;
   
   let diagram = item.Text;
   
@@ -49,9 +50,11 @@
     <Button color="yellow"  class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
     <Button color="purple"  class="m-4" on:click={()=>{editing = !editing}}>Edit</Button>
     <Button color="green"  class="m-4" on:click={()=>doUpdate()}>Update</Button>
+    <Button color="blue" class="m-4" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'down')}>▼</Button>
+    <Button color="blue" class="m-4" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'up')}>▲</Button>
     {/if}
     {#if editing}
-      <textarea bind:value={diagram}/>
+      <textarea bind:value={diagram}></textarea>
     {/if}
   </div>
 </div>
@@ -62,13 +65,13 @@
     flex-wrap: wrap;
     width: 100%;
   }
-  .left{
+  /* .left{
     min-width:800px;
     height:auto;
     margin: 0.5em;
     padding: 0.5em;
     background-color: whitesmoke;
-  }
+  } */
   .inner {
     min-width: 800px;
     height:auto;
