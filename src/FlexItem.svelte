@@ -34,14 +34,16 @@
   // }
 
   function words(s) {
+    console.log(s + '..')
     s = s.slice(0, 500)
-    s = s.replace(/[^0-9A-Za-z\s]+/g,"");
-    s = s.replace(/\b\w{1,3}\b/gi,"");
+    s = s.replace(/[^0-9A-Za-z\s]+/g," ");
+    s = s.replace(/\b\w{1,4}\b/gi," ");
     s = s.replace(/\s+/g, " ");
+    s = s.trim();
     console.log(s + '.')
     if(s != '') {
       const freq = {};
-      s.trim().split(' ').forEach(word => {
+      s.split(' ').forEach(word => {
         freq[word] = (freq[word] || 0) + 1;
       });
       let res = []
@@ -114,7 +116,7 @@
       </div>
     </div>
   {/if}
-  {#if item.type != 'image' && item.Text != null}
+  {#if item.type !== 'image' && item.Text != null}
     <div class="img_outer">
       <div class="img_inner">
         <!-- <Avatar size="xl"><P size="xl" weight="bold">{item.Name.replace(/\B\w+/g, "").toUpperCase()}</P></Avatar> -->

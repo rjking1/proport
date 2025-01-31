@@ -20,49 +20,68 @@
 
 </script>
 
-<div class="outer">
-  <div class="left">
-    <div>{@html marked(markdown)}</div>
+<div class="container">
+  <div class="contents">
+    <div>
+      {@html marked(markdown)}
+    </div>
   </div>
-  <div class="inner">
+  <div class="buttons">
     {#if $permissions}
-    <Button color="yellow"  class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
-    <Button color="purple"  class="m-4" on:click={()=>{editing = !editing}}>Edit</Button>
-    <Button color="green"  class="m-4" on:click={()=>doUpdate()}>Update</Button>
-    <Button color="blue" class="m-4" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'down')}>▼</Button>
-    <Button color="blue" class="m-4" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'up')}>▲</Button>
-    {/if}
-    <!-- Convert the markdown to HTML and display it -->
-    {#if editing}
-      <textarea bind:value={markdown}></textarea>
+    <Button color="yellow"  class="m-1 p-1" on:click={onDelete(item.ID)}>Delete</Button>
+    <Button color="purple"  class="m-1 p-1" on:click={()=>{editing = !editing}}>Edit</Button>
+    <Button color="blue" class="m-1 p-1" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'down')}>▼</Button>
+    <Button color="blue" class="m-1 p-1" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'up')}>▲</Button>
     {/if}
   </div>
 </div>
+{#if editing}
+<div class="editor">
+  <div>
+    Editing...
+    <br>
+    <textarea bind:value={markdown}></textarea>
+  </div>
+  <div>
+    <Button color="green"  class="m-1 p-1" on:click={()=>doUpdate()}>Update</Button>
+  </div>
+</div>
+{/if}
 
 <style>
-  .outer {
+  .container {
+    margin: 0.5em;
+    padding: 0.5em;
+    background-color: whitesmoke;
+    width: 100%;
     display:flex;
-    flex-wrap: wrap;
+    position: relative;
+    min-height: 155px;
+  }
+  .contents {
     width: 100%;
   }
-  .left{
-    max-width:800px;
-    height:auto;
-    margin: 0.5em;
-    padding: 0.5em;
-    background-color: whitesmoke;
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    position:absolute;
+    right: 2%;
+    opacity:0.1;
   }
-  .inner {
-    max-width: 800px;
-    height:auto;
+  .buttons:hover {
+    opacity: 1;
+  }
+  .editor {
     margin: 0.5em;
+    margin-top: -0.5em;
     padding: 0.5em;
-    background-color: whitesmoke;
+    background-color: ivory;
+    max-width: 1536px;
   }
   textarea {
     field-sizing: content;
-    width: 100%;
-    max-width: 1024px;
-    max-height: 30em;
+    width: 98%;
+    min-height: 150px;
+    max-width: 1536px;
   }
 </style>

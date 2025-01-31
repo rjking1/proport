@@ -82,6 +82,7 @@
         where portfolio_id=${portfolio_id} and ${where_shared}
         order by p.datetime desc, p.id desc`
     );
+    console.log(projects);
   }
 
   async function interestSelected(interestID) {

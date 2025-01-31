@@ -10,21 +10,39 @@
 
 </script>
 
-<div class="inner">
-  <img  src={src} alt="not found" />
+<div class="container">
+  <div class="contents">
+    <img  src={src} alt="not found" />
+  </div>
   {#if $permissions}
-  <Button color="yellow"  class="m-4" on:click={onDelete(item.ID)}>Delete</Button>
-  <Button color="blue" class="m-4" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'down')}>▼</Button>
-  <Button color="blue" class="m-4" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'up')}>▲</Button>
+  <div class="buttons">
+    <Button color="yellow"  class="m-1 p-1" on:click={onDelete(item.ID)}>Delete</Button>
+    <Button color="blue" class="m-1 p-1" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'up')}>▲</Button>
+    <Button color="blue" class="m-1 p-1" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'down')}>▼</Button>
+  </div>
   {/if}
 </div>
 
 <style>
-  .inner {
-    max-width: 100%; 
-    height:auto;
+  .container {
     margin: 0.5em;
     padding: 0.5em;
     background-color: whitesmoke;
+    width: 100%;
+    display:flex;
+    position: relative;
+  }
+  .contents {
+    width: 100%;
+  }
+  .buttons {
+    display: flex;
+    flex-direction: column;
+    position:absolute;
+    right: 2%;
+    opacity:0.1;
+  }
+  .buttons:hover {
+    opacity: 1;
   }
 </style>

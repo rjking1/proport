@@ -6,6 +6,9 @@
   import { scaleOrdinal } from "d3-scale";
   import * as CS from "d3-scale-chromatic";
 
+  // modified from https://github.com/maziyank/svelte-d3-cloud
+  // width and height caused problems when set outside
+
   // event dispatcher
   // const dispatch = createEventDispatcher();
 
@@ -94,7 +97,7 @@
   });
 </script>
 
-<div id={id} style="background-color: {backgroundColor};" />
+<div id={id} style="background-color: {backgroundColor};"></div>
 
 <style>
   div {
