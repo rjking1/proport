@@ -6,23 +6,40 @@
   export let onDelete;
   export let onEdit;
   export let onMove;
+
+  let editing = false;
+
+  function doUpdate() {
+    editing=false;
+    onEdit(item.ID, item.Text)
+  }
 </script>
 
 <div class="container">
   <div class="contents">
+    {#if editing}
     <textarea bind:value={item.Text}>{item.Text}</textarea>
+    {:else}
+    <textarea bind:value={item.Text} readonly>{item.Text}</textarea>
+    {/if}
     <!-- <span><small>{item.DateTime}</small></span> -->
   </div>
   {#if $permissions}
   <div class="buttons">
-    <Button color="yellow" class="m-1 p-1" on:click={()=>onDelete(item.ID)}>Delete</Button>
-    <Button color="green" class="m-1 p-1" on:click={()=>onEdit(item.ID, item.Text)}>Update</Button>
     <Button color="blue" class="m-1 p-1" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'up')}>▲</Button>
     <Button color="blue" class="m-1 p-1" on:click={()=>onMove(item.ID, item.Project_ID, item.SortOrder, 'down')}>▼</Button>
+    <Button color="purple"  class="m-1 p-1" on:click={()=>{editing = !editing}}>Edit</Button>
+    <Button color="yellow" class="m-1 p-1" on:click={()=>onDelete(item.ID)}>Delete</Button>
   </div>
   {/if}
 </div>
-
+{#if editing}
+<div class="editor">
+  <div>
+    <Button color="green"  class="m-1 p-1" on:click={()=>doUpdate()}>Update</Button>
+  </div>
+</div>
+{/if}
 <style>
   .container {
     margin: 0.5em;
@@ -50,4 +67,10 @@
     width: 100%;
     min-height: 150px;
   }
-</style>
+  .editor {
+    margin: 0.5em;
+    margin-top: -0.5em;
+    padding: 0.5em;
+    background-color: ivory;
+    max-width: 1536px;
+  }</style>

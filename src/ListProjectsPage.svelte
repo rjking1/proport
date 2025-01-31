@@ -48,9 +48,9 @@
   async function queryInterests() {
     interests = await doFetch(
       $dbN,
-      `select j.ID as ID, j.Name as Name, 'image' as type, j.Shared,
-      (select i.Text from projects p 
-        join items i on i.project_id=p.id and i.name='image'
+      `select j.ID as ID, j.Name as Name, j.Shared,
+        (select i.Text from projects p 
+        join items i on i.project_id=p.id 
         join portfolios f on p.portfolio_id=f.id
         where f.interest_id=j.id order by rand() limit 1 ) as Text
       from interests j 
@@ -64,8 +64,8 @@
       $dbN,
       // random image from  all project items under each portfoiio, if exists
       // what magic is the order by rand() ??
-      `select f.ID as ID, f.Name as Name, 'image' as type, f.Shared,
-      (select i.Text from projects p  join items i on i.project_id=p.id and i.name='image'  
+      `select f.ID as ID, f.Name as Name, f.Shared,
+        (select i.Text from projects p join items i on i.project_id=p.id  
         where p.portfolio_id=f.id order by rand() limit 1 ) as Text
       from portfolios f 
       where f.interest_id=${interest_id} and ${where_shared}
@@ -77,8 +77,10 @@
   async function queryProjects(portfolio_id) {
     projects = await doFetch(
       $dbN,
-      `select p.ID, p.Name, p.Shared, i.Name as type, i.Text from projects p left join items i on i.project_id=p.id and 
-        i.ID = (select max(ID) from items where project_id=p.ID) 
+      `select p.ID, p.Name, p.Shared,
+      (select i.Text from items i 
+        where i.project_id=p.id order by rand() limit 1 ) as Text
+      from projects p 
         where portfolio_id=${portfolio_id} and ${where_shared}
         order by p.datetime desc, p.id desc`
     );
