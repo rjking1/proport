@@ -77,7 +77,7 @@
     <TextItem item={item} onDelete={(id)=>handleDelete(id)} onEdit={(id, text)=>handleEdit(id,text)} onMove={(id, projID, currSortOrder, dir)=>handleMove(id, projID, currSortOrder, dir)} />
   {/if}
   {#if item.Name == "image"}
-    <ImageItem item={item} onDelete={(id)=>handleDelete(id)} onMove={(id, projID, currSortOrder, dir)=>handleMove(id, projID, currSortOrder, dir)} />
+    <ImageItem item={item} onDelete={(id)=>handleDelete(id)} onEdit={(id, text)=>handleEdit(id,text)} onMove={(id, projID, currSortOrder, dir)=>handleMove(id, projID, currSortOrder, dir)} />
   {/if}
   {#if item.Name == "mermaid"}
     <MermaidItem item={item} onDelete={(id)=>handleDelete(id)} onEdit={(id, text)=>handleEdit(id,text)} onMove={(id, projID, currSortOrder, dir)=>handleMove(id, projID, currSortOrder, dir)} />

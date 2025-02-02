@@ -40,6 +40,7 @@
   </div>
 </div>
 {/if}
+
 <style>
   .container {
     margin: 0.5em;
