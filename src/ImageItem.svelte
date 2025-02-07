@@ -1,7 +1,7 @@
 <script>
   import { Button, Input } from "flowbite-svelte";
   import { dbN, permissions } from "./stores";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
 
   export let item;
   export let onEdit;
@@ -14,25 +14,45 @@
   let canvas;
   let ctx;
   let img1;
+  let cw;
+  let ch;
+
 
   let isDrawing;
   let haveMoved;
   let stampText = "< Here!"
 
-	onMount(() => {
+	onMount(async () => {
 		ctx = canvas.getContext('2d');
     img1 = new Image();
-    //drawing of the test image - img1
     img1.onload = () => {
-        //draw background image
-        ctx.drawImage(img1, 0, 0); // , img1.width, img1.height); still have questions -- see
-        // https://svelte.dev/playground/b047e406589a4b51b076dfa5b8d0cb9a?version=5.19.6
+        ctx.drawImage(img1, 0, 0); //, 400, 150);
+        // setting drawn image dimensions does make a difference!
+        // can we use this to scale the image? 
+        // drawing x,y seems to be correct
+        // BUT image shrinks with each save/load... no good !!! could we resize prior to saving?
 
+        // handle resize event as someone suggested?
+
+        // maybe the answer is here
+        // https://svelte.dev/playground/b047e406589a4b51b076dfa5b8d0cb9a?version=5.19.6
+        // https://stackoverflow.com/questions/23104582/scaling-an-image-to-fit-on-canvas
+        // https://stackoverflow.com/questions/63192792/responsive-full-width-canvas-in-sveltejs
+        // https://cloudinary.com/guides/bulk-image-resize/transform-your-visuals-how-to-resize-an-image-in-javascript#:~:text=The%20canvas%20element%20allows%20for,let%20canvas%20%3D%20document.
+        
         //draw a box over the top
         // ctx.fillStyle = "rgba(200, 0, 0, 0.5)";
-        // ctx.fillRect(0, 0, 500, 500);
+        // ctx.fillRect(10, 10, 150, 150);
     };
+    // this loads the new image object
+    await tick();
     img1.src = src;
+    // when finishing loading then above fn will be called to draw it on the canvas
+    await tick();
+    cw = img1.naturalWidth
+    ch = img1.naturalHeight
+
+    console.log("cw=", cw," ch=", ch)
   })
 
   function doUpdate() {
@@ -59,10 +79,10 @@
   };
   
   onmousemove = (e) => {
-    const bounding = canvas.getBoundingClientRect();
-    const x = e.clientX - bounding.left;
-    const y = e.clientY - bounding.top;
     if (isDrawing) {      
+      const bounding = canvas.getBoundingClientRect();
+      const x = e.clientX - bounding.left;
+      const y = e.clientY - bounding.top;
       ctx.lineTo(x, y);
       ctx.stroke();      
       haveMoved = true;
@@ -70,13 +90,14 @@
   };
   
   onmouseup = function (e) {
-    const bounding = canvas.getBoundingClientRect();
-    const x = e.clientX - bounding.left;
-    const y = e.clientY - bounding.top;
+
     isDrawing = false;
     ctx.closePath();
     // if have not moved then stamp text
     if(haveMoved == false) {
+      const bounding = canvas.getBoundingClientRect();
+      const x = e.clientX - bounding.left;
+      const y = e.clientY - bounding.top;
       ctx.font = "28px Arial";
       ctx.fillStyle = "purple";
       ctx.fillText(stampText, x, y);
@@ -87,7 +108,7 @@
 
 <div class="container">
   <div class="contents">
-    <canvas bind:this={canvas} width=1024px height=1400px class="cnv" on:mousedown={onmousedown} on:mousemove={onmousemove} on:mouseup={onmouseup} >
+    <canvas bind:this={canvas} width={cw}} height={ch} style="width: {cw}px; height: {ch}px" on:mousedown={onmousedown} on:mousemove={onmousemove} on:mouseup={onmouseup} >
       <!-- <img bind:value={item.Text}/> -->
     </canvas>
   </div>

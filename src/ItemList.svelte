@@ -18,7 +18,7 @@
         $dbN,
         `update items set text='${text.replace(/'/g, "''")}' where id=${id}` 
       );
-    console.log(qresult);
+    console.log('length=', text.length);
   }
 
   async function handleDelete(id) {

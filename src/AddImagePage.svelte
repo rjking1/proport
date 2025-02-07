@@ -48,6 +48,7 @@
   //fetch('https://www.artspace7.com.au/dsql/json_helper_get.php?db=art25285_rides2&sql=select%20*%20from%20bikes')
 
   async function doAddOrUpdate() {
+    console.log('length=', base64String.length);
     const sql =
         "INSERT INTO items (name, text, project_id, user_id, sortorder) " +
           "values ('image','" +
@@ -58,7 +59,7 @@
           "(select Max(i2.id) + 1 from items i2)" +
           ")";
     qresult = await doFetch($dbN, sql);
-    console.log(qresult);
+    // console.log(qresult);
 
     replace(`/project/${user_id}/${project_id}`);
   }
