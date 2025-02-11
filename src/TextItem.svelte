@@ -47,11 +47,12 @@
     padding: 0.5em;
     background-color: whitesmoke;
     width: 100%;
+    max-width: 1200px;
     display:flex;
     position: relative;
   }
   .contents {
-    width: 100%;
+    width: 100%
   }
   .buttons {
     display: flex;
