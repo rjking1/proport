@@ -59,7 +59,7 @@
     flex-direction: column;
     position:absolute;
     right: 2%;
-    opacity:0.1;
+    opacity:0.2;
   }
   .buttons:hover {
     opacity: 1;

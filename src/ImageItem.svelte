@@ -1,6 +1,6 @@
 <script>
   import { Button, Input } from "flowbite-svelte";
-  import { dbN, permissions } from "./stores";
+  import { permissions } from "./stores";
   import { onMount, tick } from "svelte";
 
   export let item;
@@ -11,8 +11,8 @@
   let src = item.Text;
   let editing;
 
-  let contw;
-  let conth;
+  let contw = 300;
+  let conth = 300;
   let canvas;
   let ctx;
   let img1;
@@ -30,38 +30,38 @@
   let stampText = "> <";
 
   onMount(async () => {
-    ctx = canvas.getContext("2d");
-    img1 = new Image();
-    img1.onload = () => {
-      ctx.drawImage(img1, 0, 0); 
-      // setting drawn image dimensions does make a difference!
-      // can we use this to scale the image?
-      // drawing x,y seems to be correct
-      // BUT image shrinks with each save/load... no good !!! could we resize prior to saving?
+    // ctx = canvas.getContext("2d");
+    // img1 = new Image();
+    // img1.onload = () => {
+    //   ctx.drawImage(img1, 0, 0); 
+    //   // setting drawn image dimensions does make a difference!
+    //   // can we use this to scale the image?
+    //   // drawing x,y seems to be correct
+    //   // BUT image shrinks with each save/load... no good !!! could we resize prior to saving?
 
-      // handle resize event as someone suggested?
+    //   // handle resize event as someone suggested?
 
-      // maybe the answer is here
-      // https://svelte.dev/playground/b047e406589a4b51b076dfa5b8d0cb9a?version=5.19.6
-      // https://stackoverflow.com/questions/23104582/scaling-an-image-to-fit-on-canvas
-      // https://stackoverflow.com/questions/63192792/responsive-full-width-canvas-in-sveltejs
-      // https://cloudinary.com/guides/bulk-image-resize/transform-your-visuals-how-to-resize-an-image-in-javascript#:~:text=The%20canvas%20element%20allows%20for,let%20canvas%20%3D%20document.
+    //   // maybe the answer is here
+    //   // https://svelte.dev/playground/b047e406589a4b51b076dfa5b8d0cb9a?version=5.19.6
+    //   // https://stackoverflow.com/questions/23104582/scaling-an-image-to-fit-on-canvas
+    //   // https://stackoverflow.com/questions/63192792/responsive-full-width-canvas-in-sveltejs
+    //   // https://cloudinary.com/guides/bulk-image-resize/transform-your-visuals-how-to-resize-an-image-in-javascript#:~:text=The%20canvas%20element%20allows%20for,let%20canvas%20%3D%20document.
 
-      //draw a box over the top
-      // ctx.fillStyle = "rgba(200, 0, 0, 0.5)";
-      // ctx.fillRect(10, 10, 150, 150);
-    };
-    // this loads the new image object
-    await tick();
-    img1.src = src;
-    // when finishing loading then above fn will be called to draw it on the canvas
-    await tick();
-    cw = img1.naturalWidth;
-    ch = img1.naturalHeight;
-    canvas.width = cw;
-    canvas.height = ch;
+    //   //draw a box over the top
+    //   // ctx.fillStyle = "rgba(200, 0, 0, 0.5)";
+    //   // ctx.fillRect(10, 10, 150, 150);
+    // };
+    // // this loads the new image object
+    // await tick();
+    // img1.src = src;
+    // // when finishing loading then above fn will be called to draw it on the canvas
+    // await tick();
+    // cw = img1.naturalWidth;
+    // ch = img1.naturalHeight;
+    // canvas.width = cw;
+    // canvas.height = ch;
 
-    console.log("init cw=", cw, " ch=", ch);
+    // console.log("init cw=", cw, " ch=", ch);
   });
 
   function doUpdate() {
@@ -148,17 +148,39 @@
 		l = left
     console.log(t,l)
 
-    console.log("cont w=", contw)
-    console.log("canvas w=", canvas.width)
+    // console.log("cont w=", contw)
+    // console.log("canvas w=", canvas.width)
     // canvas.width = contw;
-    // if do this then need to redraw img on canvas and set all canvas props again
+    // if do this then need to redraw img on canvas and set all canvas props again ####################################
 	}
+
+  const doEdit = async () => {
+    editing = !editing;
+    await tick();
+    // load image    
+    ctx = canvas.getContext("2d");
+    img1 = new Image();
+    img1.onload = () => {
+      ctx.drawImage(img1, 0, 0); 
+    };
+    // this loads the new image object
+    await tick();
+    img1.src = src;
+    // when finishing loading then above fn will be called to draw it on the canvas
+    await tick();
+    cw = img1.naturalWidth;
+    ch = img1.naturalHeight;
+    canvas.width = cw;
+    canvas.height = ch;
+    console.log("init cw=", cw, " ch=", ch);
+  }
 </script>
 
 <svelte:window on:resize={handleSize} />
 
 <div class="container" bind:clientWidth={contw} bind:clientHeight={conth} >
   <div class="contents" >
+    {#if editing}
     <canvas
       bind:this={canvas}
 
@@ -184,8 +206,10 @@
         })
       }}
     >
-      <!-- <img bind:value={item.Text}/> -->
-    </canvas>
+  </canvas>
+  {:else}
+  <img src={item.Text}/>
+  {/if}
   </div>
   {#if $permissions}
     <div class="buttons">
@@ -205,7 +229,7 @@
         color="purple"
         class="m-1 p-1"
         on:click={() => {
-          editing = !editing;
+          doEdit()
         }}>Edit</Button
       >
       <Button color="yellow" class="m-1 p-1" on:click={onDelete(item.ID)}
@@ -219,9 +243,9 @@
       Colour: 
       <input type="color" bind:value={drawingcolour}>
       Size: 
-      <input type="number" xwidth="100px"bind:value={pensize}>
+      <input type="number" bind:value={pensize}>
       Click&nbsp;text: 
-      <Input xwidth="200px" bind:value={stampText} />
+      <Input bind:value={stampText} />
       <Button color="green" class="m-1 p-1" on:click={() => doUpdate()}
         >Update</Button
       >
@@ -241,19 +265,18 @@
   .contents {
     width: 100%;
   }
-  /* got to fix this 
-        // https://svelte.dev/playground/b047e406589a4b51b076dfa5b8d0cb9a?version=5.19.6
-  */
   .editor {
     display: flex;
     column-gap: 10px;
+    width: 100%;
+    max-width: 1200px;
   }
   .buttons {
     display: flex;
     flex-direction: column;
     position: absolute;
     right: 2%;
-    opacity: 0.1;
+    opacity: 0.2;
   }
   .buttons:hover {
     opacity: 1;
