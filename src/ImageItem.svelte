@@ -187,7 +187,7 @@
       style="xwidth: 100%; xheight: auto; display:block"
       
       on:mousedown={handleStart}	
-      on:touchstart|stopPropagation={e => {
+      on:touchstart|preventDefault={e => {
         const { clientX, clientY } = e.touches[0]
         handleStart({
           offsetX: clientX - l,
@@ -195,10 +195,10 @@
         })
       }}	
       on:mouseup={handleEnd}				
-      on:touchend|stopPropagation={handleEnd}				
+      on:touchend|preventDefault={handleEnd}				
       on:mouseleave={handleEnd}
       on:mousemove={handleMove}
-      on:touchmove|stopPropagation={e => {
+      on:touchmove|preventDefault={e => {
         const { clientX, clientY } = e.touches[0]
         handleMove({
           offsetX: clientX - l,
