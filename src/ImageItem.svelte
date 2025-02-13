@@ -66,8 +66,8 @@
 
   function doUpdate() {
     editing = false;
-    const dataURL = canvas.toDataURL();
-    onEdit(item.ID, dataURL);
+    item.Text = canvas.toDataURL();
+    onEdit(item.ID, item.Text);
   }
 
   // onmousedown = (e) => {

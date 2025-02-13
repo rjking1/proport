@@ -34,6 +34,7 @@
 
   function doUpdate() {
     editing=false;
+    item.Text = diagram
     onEdit(item.ID, diagram)
   }
 

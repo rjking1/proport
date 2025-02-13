@@ -15,6 +15,7 @@
 
   function doUpdate() {
     editing=false;
+    item.Text = markdown
     onEdit(item.ID, markdown)
   }
 
